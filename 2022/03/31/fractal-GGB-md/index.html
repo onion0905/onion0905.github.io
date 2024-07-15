@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在 GeoGeBra 內製作碎形並不是太困難的事情，但是 GGB 很容易當機，因此要注意隨時存檔喔:D  Outline 二元樹 謝爾賓斯基三角形">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GGB 碎形製作">
+<meta property="og:url" content="http://example.com/2022/03/31/fractal-GGB-md/index.html">
+<meta property="og:site_name" content="onion 隨筆">
+<meta property="og:description" content="在 GeoGeBra 內製作碎形並不是太困難的事情，但是 GGB 很容易當機，因此要注意隨時存檔喔:D  Outline 二元樹 謝爾賓斯基三角形">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/XKLDvx6.png">
+<meta property="og:image" content="https://i.imgur.com/UpnBIe4.png">
+<meta property="og:image" content="https://i.imgur.com/OxwZXje.png">
+<meta property="og:image" content="https://i.imgur.com/SyBGZgJ.png">
+<meta property="og:image" content="https://i.imgur.com/RW0gQI9.png">
+<meta property="og:image" content="https://i.imgur.com/oH7OYbx.png">
+<meta property="og:image" content="https://i.imgur.com/MMw2d1X.png">
+<meta property="og:image" content="https://i.imgur.com/J2qduFT.png">
+<meta property="og:image" content="https://i.imgur.com/PvbcWaJ.png">
+<meta property="og:image" content="https://i.imgur.com/QCq1XGf.png">
+<meta property="og:image" content="https://i.imgur.com/YkPLRA1.png">
+<meta property="og:image" content="https://i.imgur.com/SvXWFT8.png">
+<meta property="og:image" content="https://i.imgur.com/w4cE0se.png">
+<meta property="og:image" content="https://i.imgur.com/Q3XzMzB.png">
+<meta property="og:image" content="https://i.imgur.com/7knl3OB.png">
+<meta property="article:published_time" content="2022-03-31T07:10:05.000Z">
+<meta property="article:modified_time" content="2022-07-08T03:14:06.000Z">
+<meta property="article:author" content="onion chen">
+<meta property="article:tag" content="Math">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/XKLDvx6.png">
+
+<link rel="canonical" href="http://example.com/2022/03/31/fractal-GGB-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>GGB 碎形製作 | onion 隨筆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">onion 隨筆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">onion's blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/31/fractal-GGB-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="onion chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="onion 隨筆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GGB 碎形製作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2022-03-31 15:10:05" itemprop="dateCreated datePublished" datetime="2022-03-31T15:10:05+08:00">2022-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-07-08 11:14:06" itemprop="dateModified" datetime="2022-07-08T11:14:06+08:00">2022-07-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在 GeoGeBra 內製作碎形並不是太困難的事情，但是 GGB 很容易當機，因此要注意隨時存檔喔:D </p>
+<h2 id="Outline"><a href="#Outline" class="headerlink" title="Outline"></a>Outline</h2><ul>
+<li>二元樹</li>
+<li>謝爾賓斯基三角形<span id="more"></span></li>
+</ul>
+<h2 id="二元樹-Binary-Tree"><a href="#二元樹-Binary-Tree" class="headerlink" title="二元樹 Binary Tree"></a>二元樹 Binary Tree</h2><h3 id="定義"><a href="#定義" class="headerlink" title="定義"></a>定義</h3><p>二元樹是每個節點最多只有兩個分支的樹狀結構<br>分支具有左右次序，不能隨意顛倒<br>而本次製作的是完全二元樹  </p>
+<h3 id="Outline-1"><a href="#Outline-1" class="headerlink" title="Outline"></a>Outline</h3><ul>
+<li>做出初始線段</li>
+<li>線段集</li>
+<li>工具</li>
+<li>迭代</li>
+</ul>
+<h3 id="製作"><a href="#製作" class="headerlink" title="製作"></a>製作</h3><p>首先做出任意兩點 A, B 以及 5 個滑桿:</p>
+<ul>
+<li>n - 迭代次數</li>
+<li>r1, r2 - 左右線段比例</li>
+<li>a, b - 左右角度</li>
+</ul>
+<p><img src="https://i.imgur.com/XKLDvx6.png"><br><img src="https://i.imgur.com/UpnBIe4.png"><br><img src="https://i.imgur.com/OxwZXje.png"><br><code>請特別注意那個&quot;度&quot;</code></p>
+<p><img src="https://i.imgur.com/SyBGZgJ.png"><br>做完應該長這樣</p>
+<hr>
+<p>接下來我們開始下幾個指令:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">u = <span class="built_in">Vector</span>(A, B)</span><br><span class="line">B1 = <span class="built_in">Translate</span>(B, u)</span><br><span class="line">B2 = <span class="built_in">Dilate</span>(B1, r1, B)</span><br><span class="line">B3 = <span class="built_in">Rotate</span>(B2, a, B)</span><br><span class="line">B4 = <span class="built_in">Dilate</span>(B1, r2, B)</span><br><span class="line">B5 = <span class="built_in">Rotate</span>(B4, -b, B) <span class="comment">//特別注意中間那個&quot;-b&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Vector 產生起點至終點的向量</li>
+<li>Translate 由起點位置往向量方向延伸做新點</li>
+<li>Dilate 將輸入的向量伸縮</li>
+<li>Rotate 將物件旋轉<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 各參數意義</span></span><br><span class="line"><span class="built_in">Vector</span>( &lt;Start Point&gt;, &lt;End Point&gt; )</span><br><span class="line"><span class="built_in">Translate</span>( &lt;Vector&gt;, &lt;Start Point&gt; )</span><br><span class="line"><span class="built_in">Dilate</span>( &lt;Object&gt;, &lt;Dilation Factor&gt;, &lt;Dilation Center Point&gt; )</span><br><span class="line"><span class="built_in">Rotate</span>( &lt;Object&gt;, &lt;Angle&gt;, &lt;Point&gt; )</span><br></pre></td></tr></table></figure>
+最後我們把這些東西作成線段並存成串列<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list1 = &#123;<span class="built_in">Segment</span>(B, B3), <span class="built_in">Segment</span>(B, B5)&#125;</span><br><span class="line"><span class="comment">// Segment[ &lt;Point&gt;, &lt;Point&gt; ]</span></span><br></pre></td></tr></table></figure>
+然後把 B1 到 B5 隱藏起來<br><img src="https://i.imgur.com/RW0gQI9.png"></li>
+</ul>
+<hr>
+<p>接下來要自訂工具<br><img src="https://i.imgur.com/oH7OYbx.png"></p>
+<hr>
+<p>輸出:<br><img src="https://i.imgur.com/MMw2d1X.png"></p>
+<hr>
+<p>輸入: 順序請按照圖片上的標示<br><img src="https://i.imgur.com/J2qduFT.png"></p>
+<hr>
+<p><img src="https://i.imgur.com/PvbcWaJ.png"></p>
+<p>來測試一下:D<br>新增隨意點 C、 D<br>然後輸入指令:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">branch</span>(C, D, a, b, r1, r2)</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/QCq1XGf.png"></p>
+<hr>
+<p>接下來我們要一步步做出最終的式子:D</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">IterationList</span>(<span class="built_in">Flatten</span>(<span class="built_in">Sequence</span>(<span class="built_in">branch</span>(<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">1</span>),<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">2</span>),a,b,r1,r2),i, <span class="number">1</span>,<span class="built_in">Length</span>(list1))),list1,&#123;&#123;<span class="built_in">Segment</span>(A,B)&#125;&#125;,n) </span><br></pre></td></tr></table></figure>
+<p>怕豹<br>所以先準備這條:D</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">branch</span>(<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">1</span>),<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">2</span>),a,b,r1,r2) </span><br></pre></td></tr></table></figure>
+<ul>
+<li>Vertex - 將線段中的點取出</li>
+<li>Element - 將串列中的元素取出<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Vertex</span>( &lt;Segment&gt;, &lt;Index&gt; )</span><br><span class="line"><span class="built_in">Element</span>( &lt;List&gt;, &lt;Position of Element n&gt; )</span><br></pre></td></tr></table></figure>
+所以剛剛那條是<br>“將 list1 中的第 i 個線段取出，並得到那兩個點”，<strong>再拿那兩個點做新線</strong>。可是 GGB 不認識 “i” 是誰ㄚ</li>
+</ul>
+<p>所以要來實現一個”迴圈”的功能，加上”Sequence”!</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Sequence</span>( &lt;Expression&gt;, &lt;Variable k&gt;, &lt;Start Value a&gt;, &lt;End Value b&gt; )</span><br></pre></td></tr></table></figure>
+<p>把這個套上剛剛的那式就變成:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Sequence</span>(<span class="built_in">branch</span>(<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">1</span>),<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">2</span>),a,b,r1,r2),i,<span class="number">1</span>,<span class="built_in">Length</span>(list1)) </span><br></pre></td></tr></table></figure>
+<p>最後把產生的串列攤平:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Flatten</span>(<span class="built_in">Sequence</span>(<span class="built_in">branch</span>(<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">1</span>),<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">2</span>),a,b,r1,r2),i,<span class="number">1</span>,<span class="built_in">Length</span>(list1))) </span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>今天的主角: IterationList</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IterationList( &lt;Expression&gt;, &lt;Variable Name&gt;, ..., &lt;Start Values&gt;, &lt;Number of Iterations&gt; )</span><br></pre></td></tr></table></figure>
+<p>我們以 list1 作為迭代物件，點 A、B 作為初始值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">IterationList</span>( &lt;Expression&gt;, list1, &#123;&#123;<span class="built_in">Segment</span>(A,B)&#125;&#125;,n)</span><br></pre></td></tr></table></figure>
+
+<p>再把上面那一長串指令帶入 expression:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">IterationList</span>(<span class="built_in">Flatten</span>(<span class="built_in">Sequence</span>(<span class="built_in">branch</span>(<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">1</span>),<span class="built_in">Vertex</span>(<span class="built_in">Element</span>(list1,i),<span class="number">2</span>),a,b,r1,r2),i,<span class="number">1</span>,<span class="built_in">Length</span>(list1))), list1, &#123;&#123;<span class="built_in">Segment</span>(A,B)&#125;&#125;,n)</span><br></pre></td></tr></table></figure>
+<p>就大功告成啦:D<br><img src="https://i.imgur.com/YkPLRA1.png"><br>:D</p>
+<hr>
+<h2 id="謝爾賓斯基三角形-Sierpinsky-Triangle"><a href="#謝爾賓斯基三角形-Sierpinsky-Triangle" class="headerlink" title="謝爾賓斯基三角形 Sierpinsky Triangle"></a>謝爾賓斯基三角形 Sierpinsky Triangle</h2><h3 id="Outline-2"><a href="#Outline-2" class="headerlink" title="Outline"></a>Outline</h3><ul>
+<li>三角形</li>
+<li>往內縮放</li>
+<li>迭代</li>
+</ul>
+<h3 id="製作-1"><a href="#製作-1" class="headerlink" title="製作"></a>製作</h3><p>首先做出任意兩點 A、B<br>並使用 <code>polygon()</code> 函數做出正三角形</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poly1 = <span class="built_in">Polygon</span>(A, B, <span class="number">3</span>) <span class="comment">// 後面的 3 代表三邊的正多邊形</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/SvXWFT8.png"></p>
+<p>接下來使用剛剛有提到的 Dilate() 來縮放三角形<br>並使用 Zip() 各對三頂點縮放</p>
+<ul>
+<li>Zip(): 將 expression 內的變數以 list 內的替換<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Zip</span>( &lt;Expression&gt;, &lt;Var1&gt;, &lt;List1&gt;, &lt;Var2&gt;, &lt;List2&gt;, ...)</span><br><span class="line"><span class="built_in">Dilate</span>(poly1,<span class="number">0.5</span>,O) <span class="comment">// 以 0.5 倍縮放 poly1</span></span><br><span class="line"><span class="built_in">Zip</span>(<span class="built_in">Dilate</span>(poly1,<span class="number">0.5</span>,O),O,&#123;<span class="built_in">Vertex</span>(poly1)&#125;) <span class="comment">// 將 &#123;vertex(poly1)&#125; 中的點代進 O</span></span><br><span class="line"><span class="comment">// 指令請輸入第三行的</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://i.imgur.com/w4cE0se.png"></p>
+<hr>
+<p>接下來就可以來迭代啦<br>下一種迭代技巧: Iteration()</p>
+<ul>
+<li>Iteration: 將上一層得出的結果輸入到下一層中<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Iteration</span>( &lt;Expression&gt;, &lt;Variable Name&gt;, ..., &lt;Start Values&gt;, &lt;Number of Iterations&gt; )</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://i.imgur.com/Q3XzMzB.png"></p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Iteration</span>(<span class="built_in">Join</span>(<span class="built_in">Zip</span>(<span class="built_in">Zip</span>(<span class="built_in">Dilate</span>(poly1,<span class="number">0.5</span>,O),O,&#123;<span class="built_in">Vertex</span>(poly1)&#125;),poly1,p1)),p1,&#123;&#123;<span class="built_in">Polygon</span>(A,B,<span class="number">3</span>)&#125;&#125;,n)</span><br></pre></td></tr></table></figure>
+<p>以上式子做的事：</p>
+<ul>
+<li>以 <code>&#123;&#123;Polygon(A, B, 3)&#125;&#125;</code> 作為初值</li>
+<li>用 <code>Zip()</code> 將大括號內的串列取出</li>
+<li>放入 expression</li>
+</ul>
+<p><img src="https://i.imgur.com/7knl3OB.png"></p>
+<p>本文章同步發布於 <a target="_blank" rel="noopener" href="https://hackmd.io/@onion0905/SkLpYM1zc">HackMD</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Math/" rel="tag"># Math</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/08/Make-a-Music-Game-101/" rel="next" title="Make a Music Game 101">
+      Make a Music Game 101 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Outline"><span class="nav-number">1.</span> <span class="nav-text">Outline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%85%83%E6%A8%B9-Binary-Tree"><span class="nav-number">2.</span> <span class="nav-text">二元樹 Binary Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E7%BE%A9"><span class="nav-number">2.1.</span> <span class="nav-text">定義</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Outline-1"><span class="nav-number">2.2.</span> <span class="nav-text">Outline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%BD%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">製作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AC%9D%E7%88%BE%E8%B3%93%E6%96%AF%E5%9F%BA%E4%B8%89%E8%A7%92%E5%BD%A2-Sierpinsky-Triangle"><span class="nav-number">3.</span> <span class="nav-text">謝爾賓斯基三角形 Sierpinsky Triangle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Outline-2"><span class="nav-number">3.1.</span> <span class="nav-text">Outline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%BD%E4%BD%9C-1"><span class="nav-number">3.2.</span> <span class="nav-text">製作</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">onion chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">onion chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

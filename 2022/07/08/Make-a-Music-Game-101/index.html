@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="大家都喜歡打音遊，那有要不要自己來做一個音遊呢:D  會用到的東西:  python3 pygame - python 的一個套件 數學 - 算座標 耐心 - 有時候一些數字是反覆測試出來的  因為這不是 unity，所以做這遊戲滿土炮的www除了使用一些沒辦法自己寫的東西外 (如: 載入圖片、畫面顯示)剩下就真的用手算w (如: 物件顯示座標)，沒有 GUI QQQQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Make a Music Game 101">
+<meta property="og:url" content="http://example.com/2022/07/08/Make-a-Music-Game-101/index.html">
+<meta property="og:site_name" content="onion 隨筆">
+<meta property="og:description" content="大家都喜歡打音遊，那有要不要自己來做一個音遊呢:D  會用到的東西:  python3 pygame - python 的一個套件 數學 - 算座標 耐心 - 有時候一些數字是反覆測試出來的  因為這不是 unity，所以做這遊戲滿土炮的www除了使用一些沒辦法自己寫的東西外 (如: 載入圖片、畫面顯示)剩下就真的用手算w (如: 物件顯示座標)，沒有 GUI QQQQ">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/LhJaHGm.png">
+<meta property="og:image" content="https://i.imgur.com/HnProh9.png">
+<meta property="og:image" content="https://i.imgur.com/aXchl5h.png">
+<meta property="og:image" content="https://i.imgur.com/hUev45M.png">
+<meta property="og:image" content="https://i.imgur.com/GhJFRmb.png">
+<meta property="og:image" content="https://i.imgur.com/8riHTVG.png">
+<meta property="og:image" content="https://i.imgur.com/cOtiQxU.png">
+<meta property="article:published_time" content="2022-07-08T02:44:45.000Z">
+<meta property="article:modified_time" content="2022-07-08T03:03:58.000Z">
+<meta property="article:author" content="onion chen">
+<meta property="article:tag" content="CRC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/LhJaHGm.png">
+
+<link rel="canonical" href="http://example.com/2022/07/08/Make-a-Music-Game-101/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Make a Music Game 101 | onion 隨筆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">onion 隨筆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">onion's blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/08/Make-a-Music-Game-101/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="onion chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="onion 隨筆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Make a Music Game 101
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2022-07-08 10:44:45 / 修改時間：11:03:58" itemprop="dateCreated datePublished" datetime="2022-07-08T10:44:45+08:00">2022-07-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>大家都喜歡打音遊，那有要不要自己來做一個音遊呢:D</p>
+</blockquote>
+<p>會用到的東西:</p>
+<ul>
+<li>python3</li>
+<li>pygame - python 的一個套件</li>
+<li>數學 - 算座標</li>
+<li>耐心 - 有時候一些數字是反覆測試出來的</li>
+</ul>
+<p>因為這不是 unity，所以做這遊戲滿土炮的www<br>除了使用一些沒辦法自己寫的東西外 (如: 載入圖片、畫面顯示)<br>剩下就真的用手算w (如: 物件顯示座標)，沒有 GUI QQQQ</p>
+<span id="more"></span>
+
+<h2 id="Former-Knowledge"><a href="#Former-Knowledge" class="headerlink" title="Former Knowledge"></a>Former Knowledge</h2><p>先來看看一個<strong>基本的</strong>音遊要有什麼東西</p>
+<ul>
+<li>音樂<ul>
+<li>譜面列表</li>
+<li>時間列表</li>
+</ul>
+</li>
+<li>音符 (note)<ul>
+<li>對上節拍</li>
+<li>等速落下</li>
+<li>在對應時刻如果玩家有按到他就消失</li>
+</ul>
+</li>
+<li>按鍵<ul>
+<li>按下時會有反應</li>
+</ul>
+</li>
+<li>Combo 數</li>
+</ul>
+<h3 id="音樂"><a href="#音樂" class="headerlink" title="音樂"></a>音樂</h3><p>譜面列表代表音符出現的順序，而時間列表裡面就有對應的音符要在什麼時候出現。</p>
+<p>首先處理譜面列表與時間列表，把他們讀檔進來後存在陣列裡。並且按下 <code>start</code> 後就開始播放音樂，並且按照列表顯示音符</p>
+<p>這兩個列表是用 “行” 來定位的。<br>第一行代表第 4.000 秒的時候會有一顆音符出現在 448 位置。<br>第二行也代表第 4.000 秒也會有一顆音符在 64 位置。<br>第三行就代表第 4.500 秒音符出現在 448 位置。</p>
+<table>
+<thead>
+<tr>
+<th>行</th>
+<th>譜面列表</th>
+<th>時間列表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>448</td>
+<td>4000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>64</td>
+<td>4000</td>
+</tr>
+<tr>
+<td>3</td>
+<td>448</td>
+<td>4500</td>
+</tr>
+<tr>
+<td>4</td>
+<td>320</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>這邊的 64 跟 448 位置不代表真的出現在 x&#x3D;64 &amp; x&#x3D;448<br>因為這些列表是用 osu 產生出來的<br>所以這些是 osu 自己的編碼<br>之後會對這些數字再處理<br>編譜感謝: (・∀・)#6879</p>
+</blockquote>
+<h3 id="音符"><a href="#音符" class="headerlink" title="音符"></a>音符</h3><p>因為不同時間會有不同的音符存在於鍵盤上，所以我們可以用超<del>毒瘤</del>的一個陣列 <code>showing_array</code> 來儲存應該遊在棋盤上的音符們 (code 部分會提到)</p>
+<h3 id="按鍵-Combo-數"><a href="#按鍵-Combo-數" class="headerlink" title="按鍵 &amp; Combo 數"></a>按鍵 &amp; Combo 數</h3><p>讀取現在鍵盤的狀態，並且在畫面畫上一個看起來很棒的矩形讓玩家知道他有按下按鍵，而 combo 數則是時時刻刻歸 0，每一次都重算 (用 <code>showing_array</code> 來做)</p>
+<h2 id="Code-實作"><a href="#Code-實作" class="headerlink" title="Code 實作"></a>Code 實作</h2><p>資源下載: <a target="_blank" rel="noopener" href="https://github.com/onion0905/mayo_music_game">https://github.com/onion0905/mayo_music_game</a><br><code>images</code> 裡面是圖片，<code>note_and_time</code> 裡面是音符跟時間列表</p>
+<hr>
+<h3 id="前置作業"><a href="#前置作業" class="headerlink" title="前置作業"></a>前置作業</h3><p>讓我們把整份 script 規劃成以下這樣子 (比較好看):<br>首先我們引入 <code>pygame</code>、<code>time</code>模組，做出基本的視窗並循環顯示，最後讓使用者點擊關閉的時候可以關掉視窗。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pygame</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">pygame.init()</span><br><span class="line">wn = pygame.display.set_mode((<span class="number">800</span> ,<span class="number">600</span>)) <span class="comment"># 設 wn 為視窗物件，長 800 高 600</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Global Vars</span></span><br><span class="line">running = <span class="literal">True</span> <span class="comment"># 操控遊戲迴圈是否繼續的變數</span></span><br><span class="line">mouse = <span class="string">&quot;&quot;</span> <span class="comment"># 存目前滑鼠的狀態</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Functions</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pygame_events</span>():</span><br><span class="line">    <span class="keyword">global</span> running</span><br><span class="line">    <span class="keyword">global</span> mouse</span><br><span class="line">    <span class="keyword">for</span> event <span class="keyword">in</span> pygame.event.get(): <span class="comment"># 取得目前的事件</span></span><br><span class="line">        <span class="keyword">if</span> event.<span class="built_in">type</span> == pygame.QUIT: <span class="comment"># 事件為「點下退出鍵」</span></span><br><span class="line">            running = <span class="literal">False</span> <span class="comment"># 結束遊戲迴圈</span></span><br><span class="line">        <span class="keyword">if</span> event.<span class="built_in">type</span> == pygame.MOUSEBUTTONDOWN: <span class="comment"># 事件為「點下滑鼠」</span></span><br><span class="line">            mouse = <span class="string">&quot;down&quot;</span></span><br><span class="line">        <span class="keyword">if</span> event.<span class="built_in">type</span> != pygame.MOUSEBUTTONDOWN:</span><br><span class="line">            mouse = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pygame_events()</span><br><span class="line">    pygame.display.update() <span class="comment"># 更新視窗</span></span><br></pre></td></tr></table></figure>
+<p>第 15 行的 <code>pygame.event.get()</code> 函式可以取得各種事件 (如：滑鼠點擊)，所以我們用第 12 行開始的自定義函數 <code>pygame_events()</code> 來統一管理這些事件。</p>
+<p>比較需要注意的是在 pygame 裡面，視窗內的座標以左上角作為原點 (0, 0)，下圖是我們這個遊戲的視窗座標。<br><img src="https://i.imgur.com/LhJaHGm.png"></p>
+<p>如果沒有問題的話，這時候執行程式會跳出一個黑黑的視窗</p>
+<p><img src="https://i.imgur.com/HnProh9.png"></p>
+<hr>
+<h3 id="時間控制"><a href="#時間控制" class="headerlink" title="時間控制"></a>時間控制</h3><p>音遊需要<strong>盡量準確</strong>的時間，所以我們在每次迴圈的前跟後都加入一個負責處理迴圈執行時間的函式。</p>
+<p>我們會希望每次迴圈執行的時間都一樣，但是執行的時間又不會長到讓人有卡頓感，經過測試最好的時間是 0.001 秒，如果一次迴圈沒有跑滿 0.001 秒，就用  <code>sleep()</code> 讓一定要過完這 0.001 秒才能執行下一次迴圈。</p>
+<blockquote>
+<p>測試出大部分迴圈在不加時間處理的情況下都不會超過 0.0005 秒，但有時要顯示的物件太多，時間會大到 0.001 秒，因此取 0.001 秒</p>
+</blockquote>
+<p>首先新增幾個變數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Global Vars</span></span><br><span class="line">...</span><br><span class="line">loop_start_time = <span class="number">0</span></span><br><span class="line">start_time = <span class="number">0</span></span><br><span class="line">time_pass = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>接著來 def 在迴圈前端處理時間的函式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">pre_time_handle</span>():</span><br><span class="line">    <span class="keyword">global</span> loop_start_time <span class="comment"># 本次迴圈的開始時間</span></span><br><span class="line">    <span class="keyword">global</span> start_time <span class="comment"># 遊戲開始的時間 (按下 start 按鈕的時間)</span></span><br><span class="line">    <span class="keyword">global</span> time_pass <span class="comment"># 遊戲開始後經過幾秒</span></span><br><span class="line">    loop_start_time = time.time()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> started:</span><br><span class="line">        start_time = loop_start_time</span><br><span class="line">    time_pass = <span class="built_in">float</span>(loop_start_time - start_time) <span class="comment"># 目前離遊戲開始有多久</span></span><br><span class="line">    time_pass = <span class="built_in">round</span>(time_pass, <span class="number">4</span>) <span class="comment"># 四捨五入到小數點後第四位</span></span><br></pre></td></tr></table></figure>
+<p>接著是在迴圈後端處理的函式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">post_time_handle</span>(<span class="params">loop_start_time</span>):</span><br><span class="line">    now_end_time = time.time()</span><br><span class="line">    now_end_time = <span class="built_in">round</span>(now_end_time, <span class="number">4</span>)</span><br><span class="line">    loop_time = now_end_time - loop_start_time <span class="comment"># 本次迴圈執行時間</span></span><br><span class="line">    <span class="keyword">if</span> loop_time &lt; <span class="number">0.001</span>: <span class="comment"># 如果迴圈執行時間大於 0.001 秒就不 sleep 了 (會 error)</span></span><br><span class="line">        time.sleep(<span class="number">0.001</span> - loop_time)</span><br></pre></td></tr></table></figure>
+<p>把這兩個函式分別加在遊戲迴圈的最前面跟最後面，就可以讓每次迴圈執行都在 0.001 秒左右</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pre_time_handle()</span><br><span class="line">    </span><br><span class="line">    pygame_events()</span><br><span class="line">    pygame.display.update()</span><br><span class="line">    </span><br><span class="line">    post_time_handle(loop_start_time)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="背景顯示"><a href="#背景顯示" class="headerlink" title="背景顯示"></a>背景顯示</h3><p>在遊戲之前我們要做一個準備畫面，並且有個 <code>start</code> 的按鈕，點下去後遊戲就會進到遊戲畫面。</p>
+<p>首先在主要迴圈內新增兩個變數：<code>mouse_pos</code> 跟 <code>keys</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pre_time_handle()</span><br><span class="line">    </span><br><span class="line">    mouse_pos = pygame.mouse.get_pos() <span class="comment"># 取得滑鼠座標</span></span><br><span class="line">    keys = pygame.key.get_pressed() <span class="comment"># 取得有哪些鍵盤上的按鍵被按下</span></span><br><span class="line">    pygame_events()</span><br><span class="line">    pygame.display.update() <span class="comment"># 更新視窗</span></span><br><span class="line">    </span><br><span class="line">    post_time_handle(loop_start_time)</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>此時 <code>keys</code> 是一個串列 (list)，透過 <code>pygame.K_a</code> 等這種變數可以存取該按鍵是否被按下，像是 <code>keys[pygame.K_a]</code> 就可以詢問 a 是否被按下。</p>
+<p>接著我們把各個會用到的圖片與物件加到程式裡面</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Objects</span></span><br><span class="line">mayo = pygame.image.load(<span class="string">&quot;images\mayo.webp&quot;</span>).convert_alpha() <span class="comment"># 用來做落下音符的美乃滋圖片</span></span><br><span class="line">start_menu = pygame.image.load(<span class="string">&quot;images\patrick_mayo.jpg&quot;</span>).convert_alpha() <span class="comment"># 開始畫面</span></span><br><span class="line">start_button = pygame.image.load(<span class="string">&quot;images\start_button.png&quot;</span>).convert_alpha() <span class="comment"># 開始按鈕</span></span><br><span class="line"></span><br><span class="line">mayo = pygame.transform.rotate(mayo, <span class="number">90</span>) <span class="comment"># 將 mayo 旋轉 90 度</span></span><br><span class="line">mayo = pygame.transform.scale(mayo, (<span class="number">100</span>, <span class="number">100</span>)) <span class="comment"># 把 mayo 的大小改為 100 * 100</span></span><br><span class="line">start_menu = pygame.transform.scale(start_menu, (<span class="number">800</span>, <span class="number">600</span>))</span><br><span class="line">start_button = pygame.transform.scale(start_button, (<span class="number">200</span>, <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line">white_back = pygame.Rect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">800</span>, <span class="number">600</span>) <span class="comment"># (x位置, y位置, x長度, y長度)</span></span><br><span class="line">border_left_line = pygame.Rect(<span class="number">140</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">600</span>)</span><br><span class="line">border_right_line = pygame.Rect(<span class="number">650</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">600</span>)</span><br><span class="line">display_pressed1 = pygame.Rect(<span class="number">150</span>, <span class="number">500</span>, <span class="number">125</span>, <span class="number">30</span>)</span><br><span class="line">display_pressed2 = pygame.Rect(<span class="number">275</span>, <span class="number">500</span>, <span class="number">125</span>, <span class="number">30</span>)</span><br><span class="line">display_pressed3 = pygame.Rect(<span class="number">400</span>, <span class="number">500</span>, <span class="number">125</span>, <span class="number">30</span>)</span><br><span class="line">display_pressed4 = pygame.Rect(<span class="number">525</span>, <span class="number">500</span>, <span class="number">125</span>, <span class="number">30</span>)</span><br><span class="line"></span><br><span class="line">music_location = <span class="string">&quot;images\\ver.hard.mp3&quot;</span></span><br><span class="line">track = pygame.mixer.music.load(music_location) <span class="comment"># 音樂載入</span></span><br><span class="line">font = pygame.font.Font(<span class="string">&quot;freesansbold.ttf&quot;</span>, <span class="number">32</span>) <span class="comment"># 字型</span></span><br></pre></td></tr></table></figure>
+
+<p>畫出來會長得像這樣</p>
+<p><img src="https://i.imgur.com/aXchl5h.png"></p>
+<p>接著我們來新增負責畫圖的函式們</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">draw_back</span>(): <span class="comment"># 負責畫遊戲畫面</span></span><br><span class="line">    pygame.draw.rect(wn, (<span class="number">107</span>, <span class="number">186</span>, <span class="number">241</span>), white_back) <span class="comment"># (視窗, 顏色, 矩形物件)</span></span><br><span class="line">    pygame.draw.rect(wn, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>), border_left_line)</span><br><span class="line">    pygame.draw.rect(wn, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>), border_right_line)</span><br><span class="line">    <span class="comment"># 垂直線</span></span><br><span class="line">    pygame.draw.line(wn, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>), (<span class="number">275</span>, <span class="number">0</span>),(<span class="number">275</span>, <span class="number">600</span>)) <span class="comment"># (視窗, 顏色, 起點, 終點)</span></span><br><span class="line">    pygame.draw.line(wn, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>), (<span class="number">400</span>, <span class="number">0</span>),(<span class="number">400</span>, <span class="number">600</span>))</span><br><span class="line">    pygame.draw.line(wn, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>), (<span class="number">525</span>, <span class="number">0</span>),(<span class="number">525</span>, <span class="number">600</span>))</span><br><span class="line">    <span class="comment"># 水平線</span></span><br><span class="line">    pygame.draw.line(wn, (<span class="number">100</span>, <span class="number">100</span>, <span class="number">100</span>), (<span class="number">150</span>, <span class="number">500</span>),(<span class="number">650</span>, <span class="number">500</span>))</span><br><span class="line">    pygame.draw.line(wn, (<span class="number">100</span>, <span class="number">100</span>, <span class="number">100</span>), (<span class="number">150</span>, <span class="number">530</span>),(<span class="number">650</span>, <span class="number">530</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">background_display</span>(<span class="params">mouse_pos</span>): <span class="comment"># 負責處理背景繪製</span></span><br><span class="line">    <span class="keyword">global</span> started</span><br><span class="line">    <span class="keyword">global</span> start_time</span><br><span class="line">    <span class="keyword">if</span> started:</span><br><span class="line">        draw_back() <span class="comment"># 如果遊戲開始了就畫上藍色的那個遊戲畫面</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        wn.blit(start_menu, (<span class="number">0</span>, <span class="number">0</span>)) <span class="comment"># 顯示開始 menu (開始畫面)</span></span><br><span class="line">        wn.blit(start_button, (<span class="number">370</span>, <span class="number">70</span>)) <span class="comment"># 顯示 start 按鈕</span></span><br><span class="line">        <span class="keyword">if</span> mouse == <span class="string">&quot;down&quot;</span>:</span><br><span class="line">            <span class="keyword">if</span> mouse_pos[<span class="number">0</span>] &gt; <span class="number">300</span> <span class="keyword">and</span> mouse_pos[<span class="number">0</span>] &lt; <span class="number">500</span> <span class="keyword">and</span> mouse_pos[<span class="number">1</span>] &gt; <span class="number">100</span> <span class="keyword">and</span> mouse_pos[<span class="number">1</span>] &lt; <span class="number">400</span>:</span><br><span class="line">                pygame.mixer.music.set_volume(<span class="number">0.1</span>) <span class="comment"># 設定音樂音量</span></span><br><span class="line">                pygame.mixer.music.play() <span class="comment"># 開始撥放音樂</span></span><br><span class="line">                started = <span class="literal">True</span> <span class="comment"># 開始了</span></span><br><span class="line">                start_time = time.time() <span class="comment"># 設定開始的時間</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">draw_press</span>(): <span class="comment"># 負責畫按鈕回饋 (就是玩家按下鍵盤後給顯示)</span></span><br><span class="line">    <span class="keyword">if</span> keys[pygame.K_d]:</span><br><span class="line">        pygame.draw.rect(wn, (<span class="number">99</span>, <span class="number">170</span>, <span class="number">219</span>), display_pressed1) <span class="comment"># (視窗, 顏色, 矩形物件)</span></span><br><span class="line">    <span class="keyword">if</span> keys[pygame.K_f]:</span><br><span class="line">        pygame.draw.rect(wn, (<span class="number">99</span>, <span class="number">170</span>, <span class="number">219</span>), display_pressed2)</span><br><span class="line">    <span class="keyword">if</span> keys[pygame.K_j]:</span><br><span class="line">        pygame.draw.rect(wn, (<span class="number">99</span>, <span class="number">170</span>, <span class="number">219</span>), display_pressed3)</span><br><span class="line">    <span class="keyword">if</span> keys[pygame.K_k]:</span><br><span class="line">        pygame.draw.rect(wn, (<span class="number">99</span>, <span class="number">170</span>, <span class="number">219</span>), display_pressed4)</span><br></pre></td></tr></table></figure>
+<p>並且再增加幾個全域變數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Global Vars</span></span><br><span class="line">...</span><br><span class="line">started = <span class="literal">False</span> <span class="comment"># 遊戲還沒開始</span></span><br><span class="line">start_time = <span class="number">0</span> <span class="comment">#遊戲開始時間 (開始後才會有真正的值)</span></span><br></pre></td></tr></table></figure>
+
+<p>來解說剛剛那坨 code 在幹什麼:D</p>
+<p><code>draw_back()</code> 負責把剛剛建立的矩形以及邊線畫上視窗</p>
+<p><code>background_display</code> 把負責處理背景繪製，若遊戲還沒開始就畫開始畫面，若偵測到滑鼠點下而且位置在按鈕附近就將 <code>started</code> 設為 True。之後就呼叫 <code>draw_back()</code> 來畫背景。</p>
+<p><code>draw_press()</code> 會看當前 keys 的狀況，如果對應按鍵被按下，就會顯示矩形。</p>
+<p>把 <code>background_display</code> 和 <code>draw_press()</code> 加到主迴圈內:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pre_time_handle()</span><br><span class="line">    </span><br><span class="line">    mouse_pos = pygame.mouse.get_pos() <span class="comment"># 取得滑鼠座標</span></span><br><span class="line">    keys = pygame.key.get_pressed() <span class="comment"># 取得有哪些鍵盤上的按鍵被按下</span></span><br><span class="line">    pygame_events()</span><br><span class="line">    background_display(mouse_pos)</span><br><span class="line">    draw_press()</span><br><span class="line">    pygame.display.update() <span class="comment"># 更新視窗</span></span><br><span class="line">    </span><br><span class="line">    post_time_handle(loop_start_time)</span><br></pre></td></tr></table></figure>
+
+<p>這時候程式會有開始畫面，點下後會進到遊戲畫面，而且按下 d、f、j、k 會有反應</p>
+<p><img src="https://i.imgur.com/hUev45M.png"></p>
+<p>開始畫面</p>
+<p><img src="https://i.imgur.com/GhJFRmb.png"></p>
+<p>f 被按下的遊戲畫面</p>
+<hr>
+<h3 id="檔案讀入"><a href="#檔案讀入" class="headerlink" title="檔案讀入"></a>檔案讀入</h3><p>首先在 <code>Global Vars</code> 新增兩個變數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Global Vars</span></span><br><span class="line">...</span><br><span class="line">drop_before_arrive = <span class="number">0.8</span> <span class="comment"># 音符到達判定線前多少秒要出現</span></span><br><span class="line">pixel_per_second = <span class="number">565</span> / drop_before_arrive <span class="comment"># 音符每秒要跑幾單位距離</span></span><br></pre></td></tr></table></figure>
+
+<p>接著我們把這兩個東西裝進 <code>times_arrive</code>、<code>notes</code>、<code>times_drop</code> 三個不同的串列中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># files</span></span><br><span class="line">times_arrive = []</span><br><span class="line">times_drop = []</span><br><span class="line">notes = []</span><br><span class="line">note_dict = &#123;<span class="number">64</span>:<span class="number">0</span>, <span class="number">192</span>:<span class="number">1</span>, <span class="number">320</span>:<span class="number">2</span>, <span class="number">448</span>:<span class="number">3</span>&#125;</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">f&quot;note_and_time\\times_normal.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> time_f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> time_f:</span><br><span class="line">        i = <span class="built_in">int</span>(i)</span><br><span class="line">        i /= <span class="number">1000</span></span><br><span class="line">        i = <span class="built_in">round</span>(i, <span class="number">4</span>) <span class="comment"># 小數點後第四位四捨五入</span></span><br><span class="line">        times_arrive.append(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">f&quot;note_and_time\\notes_normal.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> note_f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> note_f:</span><br><span class="line">        i = <span class="built_in">int</span>(i)</span><br><span class="line">        i = note_dict[i]</span><br><span class="line">        notes.append(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> times_arrive:</span><br><span class="line">    i -= drop_before_arrive <span class="comment"># dropping rate</span></span><br><span class="line">    i = <span class="built_in">round</span>(i, <span class="number">4</span>)</span><br><span class="line">    times_drop.append(i)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中第一個 with 我們把時間列表中以「毫秒」為單位的數字轉成以「秒」為單位，並存進 <code>times_arrive</code>，代表音符應該在什麼時候<strong>到達</strong>判定線</p>
+<p>第二個 with 我們音符列表裡面的數字轉成 0~3 的數字，代表他們應該出現在第幾格。</p>
+<p>而第 19 行的那個 for 迴圈把剛剛的 <code>times_arrive</code> 中的數值，減去 <code>drop_before_arrive</code> ，也就是<strong>到達判定線前多少秒要出現</strong>。所以 <code>times_drop</code> 就是存每個音符什麼時候要出現在畫面上</p>
+<blockquote>
+<p>ㄚ其實也可以直接在外面先預處理好這些資料然後存檔</p>
+</blockquote>
+<hr>
+<h3 id="class-Note"><a href="#class-Note" class="headerlink" title="class: Note"></a>class: Note</h3><blockquote>
+<p>Music On!<br>:::danger<br>以下可能會有種「乾怎麼這麼毒瘤」的感覺wwww<br>:::<br>首先建立一個 class 做為一個音符，並帶有音符的資料與方法。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Note</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, drop_time, arrive_time, xcor, ycor, block</span>):</span><br><span class="line">        <span class="variable language_">self</span>.drop_time = drop_time</span><br><span class="line">        <span class="variable language_">self</span>.arrive_time = arrive_time</span><br><span class="line">        <span class="variable language_">self</span>.xcor = xcor</span><br><span class="line">        <span class="variable language_">self</span>.ycor = ycor</span><br><span class="line">        <span class="variable language_">self</span>.block = block</span><br><span class="line">        <span class="variable language_">self</span>.hit = <span class="literal">False</span></span><br><span class="line">        <span class="variable language_">self</span>.show = <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ycor_update</span>(<span class="params">self, time_pass</span>):</span><br><span class="line">        p = time_pass - <span class="variable language_">self</span>.drop_time <span class="comment"># 開始墜落後經過的時間。</span></span><br><span class="line">        <span class="comment"># 上面的時間 * 像素每秒 - (目前位置 + 60) = 要增加的座標 (60 是測試出來的緩衝座標)</span></span><br><span class="line">        <span class="variable language_">self</span>.ycor += pixel_per_second * p - (<span class="variable language_">self</span>.ycor + <span class="number">60</span>) </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">check_remove</span>(<span class="params">self, time_pass</span>):</span><br><span class="line">        block_check = keys[<span class="variable language_">self</span>.block]</span><br><span class="line">        time_check = <span class="built_in">abs</span>(time_pass - <span class="variable language_">self</span>.arrive_time) &lt;= <span class="number">0.1</span> <span class="comment"># 時間差小於 0.1 秒就可以移除</span></span><br><span class="line">        <span class="comment"># 如果覺得判定太小可以把 0.1 改大</span></span><br><span class="line">        <span class="keyword">return</span> block_check <span class="keyword">and</span> time_check</span><br></pre></td></tr></table></figure>
+<p>從 <code>__init__</code> 我們可以看到，這個類別帶有的資訊有：</p>
+<ul>
+<li>墜落時間 - 出現在棋盤上的時間</li>
+<li>到達時間 - 到達判定線的時間</li>
+<li>x 座標 - cor 是 coordinate 的意思:D</li>
+<li>y 座標</li>
+<li>block - 該音符對應到鍵盤上哪個鍵(d、f、j、k)</li>
+<li>hit - 是否被擊中 (初始值為 <code>False</code>)</li>
+<li>show - 是否顯示 (被擊中後會被設為 <code>False</code>)</li>
+</ul>
+<p>這個類別有兩個方法：<code>ycor_update()</code> 用來更新一個音符的 y 座標，<code>check_remove()</code> 會確認這個音符是否可以被移除。</p>
+<hr>
+<h3 id="將音符加入顯示串列"><a href="#將音符加入顯示串列" class="headerlink" title="將音符加入顯示串列"></a>將音符加入顯示串列</h3><p>我們使用一個全域串列 <code>showing_array</code>。裡面存多個 <code>Note</code> 類別。<strong>在這個串列裡面的音符代表「已經」或「正在」被顯示</strong>。因此我們可以透過 <code>drop_time</code> 裡的資料以及遊戲開始後經過的時間 “<code>time_pass</code>“，判斷是否將這個音符加入 <code>showing_array</code>。</p>
+<p>來做將音符加入  <code>showing_array</code> 的函式。<br>首先在 <code>Global Vars</code> 的部分加入以下東西:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Global Vars</span></span><br><span class="line">...</span><br><span class="line">showing_array = []</span><br><span class="line">pointer = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>其中 <code>pointer</code> 代表「下一個要顯示的音符的 index」<br>接著弄將音符加入 <code>showing_array</code> 的函式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">showingArray_appending</span>(<span class="params">time_pass</span>):</span><br><span class="line">    <span class="keyword">global</span> showing_array</span><br><span class="line">    <span class="keyword">global</span> pointer</span><br><span class="line">    coresponding_location = [<span class="number">160</span>, <span class="number">285</span>, <span class="number">410</span>, <span class="number">535</span>] <span class="comment"># xcor 定位用</span></span><br><span class="line">    coresponding_key = &#123;<span class="number">0</span>: pygame.K_d, <span class="number">1</span>: pygame.K_f, <span class="number">2</span>: pygame.K_j, <span class="number">3</span>: pygame.K_k&#125; <span class="comment"># block 定位用</span></span><br><span class="line">    <span class="keyword">while</span> pointer &lt; <span class="built_in">len</span>(times_drop) <span class="keyword">and</span> <span class="built_in">abs</span>(time_pass - times_drop[pointer]) &lt;= <span class="number">0.1</span>:</span><br><span class="line">        <span class="comment"># Note(drop_time, arrive_time, xcor, ycor, block)</span></span><br><span class="line">        one_note = Note(times_drop[pointer], times_arrive[pointer], coresponding_location[notes[pointer]], -<span class="number">100</span>, coresponding_key[notes[pointer]])</span><br><span class="line">        showing_array.append(one_note)</span><br><span class="line">        pointer += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>如果 <code>pointer</code> 的數字還在音符數量的大小之內，就判斷「現在時間」是否跟 「<code>pointer</code> 指向的音符所要出現的時間」 相差小於等於 0.1 秒 (因為計時沒辦法剛好準確而且又是浮點數所以用 0.1 秒作為判斷值)</p>
+<hr>
+<h3 id="讓顯示串列裡面的音符顯示出來"><a href="#讓顯示串列裡面的音符顯示出來" class="headerlink" title="讓顯示串列裡面的音符顯示出來"></a>讓顯示串列裡面的音符顯示出來</h3><p>我們來定義一個 <code>note_displaying</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">note_displaying</span>(<span class="params">time_pass</span>):</span><br><span class="line">    <span class="keyword">global</span> showing_array</span><br><span class="line">    <span class="keyword">for</span> one_note <span class="keyword">in</span> showing_array:</span><br><span class="line">        <span class="keyword">if</span> one_note.show: <span class="comment"># 初始值為 True</span></span><br><span class="line">            one_note.ycor_update(time_pass) <span class="comment"># 更新自己的 y 座標</span></span><br><span class="line">            wn.blit(mayo, (one_note.xcor, one_note.ycor)) <span class="comment"># blit 到螢幕上</span></span><br><span class="line">        <span class="keyword">if</span> one_note.ycor &gt;= <span class="number">900</span>:</span><br><span class="line">            one_note.show = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>如果自己的 y 座標大於等於 900 就讓這個音符的 <code>show</code> 屬性變成 False，之後就不會進到上面那個 if 結構了。</p>
+<p>最後把上面兩個函式加到遊戲迴圈內</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pre_time_handle()</span><br><span class="line">    ... </span><br><span class="line">    showingArray_appending(time_pass)</span><br><span class="line">    note_displaying(time_pass)</span><br><span class="line">    </span><br><span class="line">    pygame.display.update()</span><br><span class="line">    post_time_handle(loop_start_time)</span><br></pre></td></tr></table></figure>
+
+<p>這時候應該可以看到美乃滋跑下來了:D</p>
+<p><img src="https://i.imgur.com/8riHTVG.png"></p>
+<blockquote>
+</blockquote>
+<p>如果在意美乃滋的圖層太上面，可以把 <code>draw_press()</code> 移到 <code>note_displaying()</code> 的後面，讓他後退一層</p>
+<hr>
+<h3 id="打他！"><a href="#打他！" class="headerlink" title="打他！"></a>打他！</h3><p>最後要來實現打音符然後音符就會消失的函式:D</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">note_remove</span>(<span class="params">time_pass</span>):</span><br><span class="line">    <span class="keyword">for</span> one_note <span class="keyword">in</span> showing_array:</span><br><span class="line">        <span class="keyword">if</span> one_note.check_remove(time_pass):</span><br><span class="line">            one_note.hit = <span class="literal">True</span> <span class="comment"># 被打到了</span></span><br><span class="line">            one_note.show = <span class="literal">False</span> <span class="comment"># 不再顯示</span></span><br></pre></td></tr></table></figure>
+
+<p>直接呼叫我們剛剛寫好的 class method 就好了:D<br>:::success<br>OOP 是好東西:D<br>:::</p>
+<p>然後加入遊戲迴圈裡面</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pre_time_handle()</span><br><span class="line">    ...</span><br><span class="line">    note_remove(time_pass)</span><br><span class="line">    </span><br><span class="line">    pygame.display.update()</span><br><span class="line">    post_time_handle(loop_start_time)</span><br></pre></td></tr></table></figure>
+
+<p>這時候如果再正確時間打音符就可以讓它消失了:DDDDD</p>
+<hr>
+<h3 id="Combo-數顯示"><a href="#Combo-數顯示" class="headerlink" title="Combo 數顯示"></a>Combo 數顯示</h3><blockquote>
+<p>最後一步了:D</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">combo_showing</span>():</span><br><span class="line">    <span class="comment"># count combo</span></span><br><span class="line">    combo = <span class="number">0</span></span><br><span class="line">    note_died_count = <span class="number">0</span> <span class="comment"># 已經有幾個不再顯示</span></span><br><span class="line">    <span class="keyword">for</span> one_note <span class="keyword">in</span> showing_array:</span><br><span class="line">        <span class="keyword">if</span> one_note.arrive_time &lt; time_pass: <span class="comment"># 判斷不再顯示的條件</span></span><br><span class="line">            note_died_count += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(note_died_count): <span class="comment"># 在這些不顯示的音符裡面，有被打到 combo 就加一，否則歸零</span></span><br><span class="line">        <span class="keyword">if</span> showing_array[i].hit:</span><br><span class="line">            combo += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            combo = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># show combo</span></span><br><span class="line">    combo_show = font.render(<span class="string">f&quot;COMBO: <span class="subst">&#123;combo&#125;</span>&quot;</span>, <span class="literal">True</span>, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))</span><br><span class="line">    <span class="comment">#            ^(顯示的字, 是否用滑順字體, 顏色)</span></span><br><span class="line">    wn.blit(combo_show, (<span class="number">10</span>, <span class="number">10</span>)) <span class="comment"># 顯示上面那個字形物件</span></span><br></pre></td></tr></table></figure>
+
+<p>一樣加到遊戲迴圈裡</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Game Loop</span></span><br><span class="line"><span class="keyword">while</span> running:</span><br><span class="line">    pre_time_handle()</span><br><span class="line">    ...</span><br><span class="line">    combo_showing()</span><br><span class="line">    </span><br><span class="line">    pygame.display.update()</span><br><span class="line">    post_time_handle(loop_start_time)</span><br></pre></td></tr></table></figure>
+
+<p>這時候應該可以完整體驗遊戲了:DDDDDD</p>
+<p><img src="https://i.imgur.com/cOtiQxU.png"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/onion0905/mayo_music_game/blob/main/writeUp.py">完整 code</a></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>因為這次選幹所以我才有機會又又又又把美乃滋拿出來看一次w<br>雖然之前靜態展已經有用過了不過那時候就是直接複製貼上wwww</p>
+<p>然後在寫這篇的過程中發現：天啊我的 code 也太醜，所有東西塞在 while 迴圈然後還一堆沒改掉的註解跟 debug info</p>
+<p>剛好在靜態展的時候為了維護幾千行的 code 練就了打 code 美學(?<br>所以就大改了美乃滋的結構www</p>
+<p>還把音符重新用 class 實作，不然之前是用一個超大毒瘤二維陣列存所有資訊wwww<br>\我愛 OOP&#x2F;</p>
+<p>不過這種過一段時間就把之前寫的專案拿出來鞭還滿有趣的XDDD</p>
+<blockquote>
+<p>三日不讀書，便覺面目可憎<br>三日不看 code，變數面目全非 &#x2F;&#x2F; 看不懂啦ww</p>
+</blockquote>
+<p>本文章同步發布於 <a target="_blank" rel="noopener" href="https://hackmd.io/@onion0905/BJACHcEuq">HackMD</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CRC/" rel="tag"># CRC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/31/fractal-GGB-md/" rel="prev" title="GGB 碎形製作">
+      <i class="fa fa-chevron-left"></i> GGB 碎形製作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/08/AIS3-2022-pre-exam-write-up/" rel="next" title="AIS3 2022 pre-exam write up">
+      AIS3 2022 pre-exam write up <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Former-Knowledge"><span class="nav-number">1.</span> <span class="nav-text">Former Knowledge</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E6%A8%82"><span class="nav-number">1.1.</span> <span class="nav-text">音樂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E7%AC%A6"><span class="nav-number">1.2.</span> <span class="nav-text">音符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E9%8D%B5-Combo-%E6%95%B8"><span class="nav-number">1.3.</span> <span class="nav-text">按鍵 &amp; Combo 數</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-%E5%AF%A6%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">Code 實作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="nav-number">2.1.</span> <span class="nav-text">前置作業</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%82%E9%96%93%E6%8E%A7%E5%88%B6"><span class="nav-number">2.2.</span> <span class="nav-text">時間控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E9%A1%AF%E7%A4%BA"><span class="nav-number">2.3.</span> <span class="nav-text">背景顯示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%94%E6%A1%88%E8%AE%80%E5%85%A5"><span class="nav-number">2.4.</span> <span class="nav-text">檔案讀入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class-Note"><span class="nav-number">2.5.</span> <span class="nav-text">class: Note</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%87%E9%9F%B3%E7%AC%A6%E5%8A%A0%E5%85%A5%E9%A1%AF%E7%A4%BA%E4%B8%B2%E5%88%97"><span class="nav-number">2.6.</span> <span class="nav-text">將音符加入顯示串列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%93%E9%A1%AF%E7%A4%BA%E4%B8%B2%E5%88%97%E8%A3%A1%E9%9D%A2%E7%9A%84%E9%9F%B3%E7%AC%A6%E9%A1%AF%E7%A4%BA%E5%87%BA%E4%BE%86"><span class="nav-number">2.7.</span> <span class="nav-text">讓顯示串列裡面的音符顯示出來</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E4%BB%96%EF%BC%81"><span class="nav-number">2.8.</span> <span class="nav-text">打他！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combo-%E6%95%B8%E9%A1%AF%E7%A4%BA"><span class="nav-number">2.9.</span> <span class="nav-text">Combo 數顯示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%8C%E8%A8%98"><span class="nav-number">3.</span> <span class="nav-text">後記</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">onion chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">onion chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
