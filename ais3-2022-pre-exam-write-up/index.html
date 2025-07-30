@@ -12,18 +12,18 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400&display=swap/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"onion.csie.org","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="這是我接觸 ctf 後第一次正式的比賽 &gt; &lt;。AIS3 pre-exam 是跟 My First CTF 一起舉辦的，很可惜的是今年因為疫情所以改為線上舉行 QQ。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AIS3 2022 pre-exam write up">
-<meta property="og:url" content="http://example.com/2022/07/08/AIS3-2022-pre-exam-write-up/index.html">
+<meta property="og:url" content="https://onion.csie.org/ais3-2022-pre-exam-write-up/index.html">
 <meta property="og:site_name" content="onion 隨筆">
 <meta property="og:description" content="這是我接觸 ctf 後第一次正式的比賽 &gt; &lt;。AIS3 pre-exam 是跟 My First CTF 一起舉辦的，很可惜的是今年因為疫情所以改為線上舉行 QQ。">
 <meta property="og:locale" content="en_US">
@@ -36,13 +36,13 @@
 <meta property="og:image" content="https://i.imgur.com/tPwOeRL.png">
 <meta property="og:image" content="https://i.imgur.com/2mxMdu3.png">
 <meta property="article:published_time" content="2022-07-08T03:09:37.000Z">
-<meta property="article:modified_time" content="2024-07-15T18:29:56.471Z">
+<meta property="article:modified_time" content="2025-07-30T03:46:55.355Z">
 <meta property="article:author" content="onion chen">
-<meta property="article:tag" content="Write Up">
+<meta property="article:tag" content="AIS3">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/zxxBLyX.png">
 
-<link rel="canonical" href="http://example.com/2022/07/08/AIS3-2022-pre-exam-write-up/">
+<link rel="canonical" href="https://onion.csie.org/ais3-2022-pre-exam-write-up/">
 
 
 <script id="page-configurations">
@@ -133,9 +133,9 @@
     <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-categories">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -171,12 +171,12 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/08/AIS3-2022-pre-exam-write-up/">
+    <link itemprop="mainEntityOfPage" href="https://onion.csie.org/ais3-2022-pre-exam-write-up/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
       <meta itemprop="name" content="onion chen">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="onion chen 的 Blog，紀錄一些有趣事物。">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -201,8 +201,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-16 02:29:56" itemprop="dateModified" datetime="2024-07-16T02:29:56+08:00">2024-07-16</time>
+                <time title="Modified: 2025-07-30 11:46:55" itemprop="dateModified" datetime="2025-07-30T11:46:55+08:00">2025-07-30</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Write-Up/" itemprop="url" rel="index"><span itemprop="name">Write Up</span></a>
+                </span>
+            </span>
 
           
 
@@ -303,7 +312,7 @@
 <p><code>殼</code>沒有解出來真的很遺憾，這還讓我想到 picoCTF 上面有一題超爛的 rockstar，解 rockstar 的時候真的是折騰了好久，不過最後沒有解出<code>殼</code>是遺憾之一。</p>
 <p>然後我真的一直把 <code>knock</code> 當 web 題，nmap 掃 port 後看到 139 和 445 有開，而且 nmap 也說那邊有 smb 服務，就一直往 smb 去解…結果是用 wireshark 錄封包…</p>
 <p>但是那種拿到 flag 的開心感最令我難以忘記，尤其是 <code>bof2win</code>，因為這是我第一次實作覆蓋 return address (之前只有聽 liveoverflow 講過)，真的很令人開心 ٩(ˊᗜˋ*)و</p>
-<p>本文章同步發布於 <a target="_blank" rel="noopener" href="https://hackmd.io/@onion0905/Sk4LIM6Lq">HackMD</a></p>
+<p>本文章同步發布於 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://hackmd.io/@onion0905/Sk4LIM6Lq">HackMD</a></p>
 
     </div>
 
@@ -313,7 +322,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Write-Up/" rel="tag"># Write Up</a>
+              <a href="/tags/AIS3/" rel="tag"># AIS3</a>
           </div>
 
         
@@ -322,11 +331,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/07/08/Make-a-Music-Game-101/" rel="prev" title="Make a Music Game 101">
+    <a href="/make-a-music-game-101/" rel="prev" title="Make a Music Game 101">
       <i class="fa fa-chevron-left"></i> Make a Music Game 101
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/07/16/AIS3-2024-pre-exam-write-up/" rel="next" title="AIS3 2024 pre-exam write up">
+    <a href="/ais3-2024-pre-exam-write-up/" rel="next" title="AIS3 2024 pre-exam write up">
       AIS3 2024 pre-exam write up <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -396,34 +405,39 @@
     <img class="site-author-image" itemprop="image" alt="onion chen"
       src="/uploads/avatar.jpg">
   <p class="site-author-name" itemprop="name">onion chen</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">onion chen 的 Blog，紀錄一些有趣事物。</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
           
         <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
       </span>
   </div>
 
@@ -448,13 +462,13 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">onion chen</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">NexT.Pisces</a>
   </div>
 
         
