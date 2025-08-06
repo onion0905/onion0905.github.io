@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400&display=swap/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"onion.csie.org","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="身為台大資訊系學生的一大好處，就是可以存取強大的 GPU Workstation。而大家都喜歡用 Jupyter Notebook 做 ML 作業，因此這篇文章為資訊系學生介紹怎麼利用這個工作站。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 CSIE Workstation 跑 notebook">
+<meta property="og:url" content="https://onion.csie.org/notebook-on-csie-workstation/index.html">
+<meta property="og:site_name" content="onion 隨筆">
+<meta property="og:description" content="身為台大資訊系學生的一大好處，就是可以存取強大的 GPU Workstation。而大家都喜歡用 Jupyter Notebook 做 ML 作業，因此這篇文章為資訊系學生介紹怎麼利用這個工作站。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://onion.csie.org/notebook-on-csie-workstation/Bkl1oCDJle.png">
+<meta property="og:image" content="https://onion.csie.org/notebook-on-csie-workstation/rJ0lOADJxg.png">
+<meta property="og:image" content="https://onion.csie.org/notebook-on-csie-workstation/S1vAF0Pkee.png">
+<meta property="article:published_time" content="2025-04-25T05:31:36.000Z">
+<meta property="article:modified_time" content="2025-08-06T06:23:25.270Z">
+<meta property="article:author" content="onion chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://onion.csie.org/notebook-on-csie-workstation/Bkl1oCDJle.png">
+
+<link rel="canonical" href="https://onion.csie.org/notebook-on-csie-workstation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>在 CSIE Workstation 跑 notebook | onion 隨筆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">onion 隨筆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">onion's blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://onion.csie.org/notebook-on-csie-workstation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="onion chen">
+      <meta itemprop="description" content="onion chen 的 Blog，紀錄有趣事物。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="onion 隨筆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 CSIE Workstation 跑 notebook
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-04-25 13:31:36" itemprop="dateCreated datePublished" datetime="2025-04-25T13:31:36+08:00">2025-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-08-06 14:23:25" itemprop="dateModified" datetime="2025-08-06T14:23:25+08:00">2025-08-06</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>身為台大資訊系學生的一大好處，就是可以存取強大的 GPU Workstation。而大家都喜歡用 Jupyter Notebook 做 ML 作業，因此這篇文章為資訊系學生介紹怎麼利用這個工作站。</p>
+<span id="more"></span>
+
+<div class="note info">
+            <p>以下指令若包含角括號，請替換成自己喜歡的名字。例如：<br><code>/tmp2/&lt;你的學號&gt;</code>，就應該被換成 <code>/tmp2/b13902001</code></p>
+          </div>
+
+<h1 id="連線到工作站"><a href="#連線到工作站" class="headerlink" title="連線到工作站"></a>連線到工作站</h1><p>在 vscode 下載 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://marketplace.visualstudio.com/items/?itemName=ms-vscode-remote.remote-ssh">Remote - SSH</a> 套件。</p>
+<p>接著打開你的終端機，用以下指令連線到工作站</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh &lt;你的學號&gt;@meow1.csie.ntu.edu.tw</span><br></pre></td></tr></table></figure>
+<p>其中可以把 <code>meow1</code> 換成另一台伺服器 <code>meow2</code>。</p>
+<h1 id="準備目錄"><a href="#準備目錄" class="headerlink" title="準備目錄"></a>準備目錄</h1><p>因為家目錄空間有限，所以在 <code>/tmp2</code> 下創建自己的目錄</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">b13902080@meow2 [~] cd /tmp2</span><br><span class="line">b13902080@meow2 [/tmp2] mkdir -p &lt;你的學號&gt;</span><br><span class="line">b13902080@meow2 [/tmp2/b13902080] mkdir -p .cache</span><br><span class="line">b13902080@meow2 [/tmp2/b13902080/.cache] mkdir -p uv</span><br><span class="line">b13902080@meow2 [/tmp2/b13902080/.cache] mkdir -p huggingface</span><br></pre></td></tr></table></figure>
+
+<h1 id="虛擬環境"><a href="#虛擬環境" class="headerlink" title="虛擬環境"></a>虛擬環境</h1><p>為了隔離套件，這邊用 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> 這個套件進行虛擬環境管理。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LsSf https://astral.sh/uv/install.sh | sh  # 下載並安裝 uv</span><br></pre></td></tr></table></figure>
+
+<p>然後在 <code>/tmp2/&lt;你的學號&gt;</code> 底下創建虛擬環境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uv venv &lt;venv_name&gt;                # 建立虛擬環境</span><br><span class="line">source ./&lt;venv_name&gt;/bin/activate  # 啟用虛擬環境</span><br></pre></td></tr></table></figure>
+<p>要退出虛擬環境請用 <code>deactivate</code> 指令</p>
+<h1 id="準備套件"><a href="#準備套件" class="headerlink" title="準備套件"></a>準備套件</h1><h2 id="每次會用到的"><a href="#每次會用到的" class="headerlink" title="每次會用到的"></a>每次會用到的</h2><p>進入虛擬環境後，要下載 <code>torch</code>以及相關套件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(venv_name) export UV_CACHE_DIR=/tmp2/&lt;你的學號&gt;/.cache  # 設定 cache 的路徑，不然家目錄又要被塞爆</span><br><span class="line">(venv_name) uv pip install notebook papermill  # 下載用來跑 notebook 的套件</span><br><span class="line">(venv_name) uv pip install torch # 基本上每次都會用到</span><br></pre></td></tr></table></figure>
+
+<h2 id="ML-HW6-會用到的"><a href="#ML-HW6-會用到的" class="headerlink" title="ML HW6 會用到的"></a>ML HW6 會用到的</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(venv_name) uv pip install -U datasets trl bitsandbytes</span><br><span class="line">(venv_name) uv pip install peft</span><br></pre></td></tr></table></figure>
+
+<h1 id="編輯-notebook"><a href="#編輯-notebook" class="headerlink" title="編輯 notebook"></a>編輯 notebook</h1><p>打開你的 <code>.ipynb</code> 檔案，可以用 vscode 或是其他方法傳到工作站上。<br>然後就可以在 vscode 裡面輕鬆編輯了。</p>
+<h2 id="環境變數"><a href="#環境變數" class="headerlink" title="環境變數"></a>環境變數</h2><p>為了不要讓 LLM 塞爆家目錄，請在 notebook 的最開始加上一格：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">%</span><span class="language-bash"><span class="built_in">env</span> HF_HOME=/tmp2/&lt;你的學號&gt;/.cache/huggingface</span></span><br><span class="line"><span class="meta prompt_">%</span><span class="language-bash"><span class="built_in">env</span> UV_CACHE_DIR=/tmp2/&lt;你的學號&gt;/.cache/uv</span></span><br></pre></td></tr></table></figure>
+<p><img src="/notebook-on-csie-workstation/Bkl1oCDJle.png" alt="環境變數設定"></p>
+<h1 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h1><p>tmux 是可以 manage 視窗的軟體，它讓你可以就算斷線了，程序也繼續執行。</p>
+<h2 id="開啟-tmux"><a href="#開啟-tmux" class="headerlink" title="開啟 tmux"></a>開啟 <code>tmux</code></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux</span><br></pre></td></tr></table></figure>
+<p><img src="/notebook-on-csie-workstation/rJ0lOADJxg.png" alt="tmux"></p>
+<h2 id="到你想要去的目錄"><a href="#到你想要去的目錄" class="headerlink" title="到你想要去的目錄"></a>到你想要去的目錄</h2><p>像我是在 <code>/tmp2/b13902080/MLhw6</code> 底下做事，所以就 <code>cd</code> 到那邊。(如果目錄不存在記得 <code>mkdir</code>)</p>
+<h2 id="開啟虛擬環境"><a href="#開啟虛擬環境" class="headerlink" title="開啟虛擬環境"></a>開啟虛擬環境</h2><p>tmux 基本上就是新開的視窗，所以就算外面已經在虛擬環境，tmux 內還是要 activate</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b13902080@meow2 [/tmp2/b13902080] source ./&lt;venv_name&gt;/bin/activate # 啟用虛擬環境</span><br></pre></td></tr></table></figure>
+
+<h2 id="退出-tmux-的方法"><a href="#退出-tmux-的方法" class="headerlink" title="退出 tmux 的方法"></a>退出 tmux 的方法</h2><p>tmux 的命令，是用「前綴」+「命令」組成。預設的前綴是 <code>Ctrl+b</code>。</p>
+<p>如果想退出 tmux，按下 <code>Ctrl+b d</code>。意思是先按 <code>Ctrl+b</code>，放開後再按 <code>d</code>。</p>
+<h2 id="連回-tmux-的方法"><a href="#連回-tmux-的方法" class="headerlink" title="連回 tmux 的方法"></a>連回 tmux 的方法</h2><p>下 <code>tmux ls</code> 可以看自己當前有什麼 session<br><img src="/notebook-on-csie-workstation/S1vAF0Pkee.png" alt="tmux ls"></p>
+<p>若要連到 0 號 session，請下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux a -t 0</span><br></pre></td></tr></table></figure>
+<p>把 <code>-t</code> 後面的數字換掉就可以連不同 session</p>
+<h1 id="執行-notebook"><a href="#執行-notebook" class="headerlink" title="執行 notebook"></a>執行 notebook</h1><h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><p>請確保你正在 tmux 內，且已經啟動虛擬環境。</p>
+<h2 id="執行"><a href="#執行" class="headerlink" title="執行"></a>執行</h2><p>papermill 可以將輸入的 <code>.ipynb</code> 檔執行完，輸出到指定的另一個檔案。如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">papermill ML_hw6.ipynb ML_hw6_2nd.ipynb</span><br></pre></td></tr></table></figure>
+<p>這樣就會執行 <code>ML_hw6.ipynb</code>，並將執行完的結果生成一個新的 notebook，檔名為 <code>ML_hw6_2nd.ipynb</code></p>
+<h2 id="離開"><a href="#離開" class="headerlink" title="離開"></a>離開</h2><p>然後你就可以退出 tmux 去喝下午茶了</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/AIS3-2024-pre-exam-write-up/" rel="prev" title="AIS3 2024 pre-exam write up">
+      <i class="fa fa-chevron-left"></i> AIS3 2024 pre-exam write up
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/NTU-CSIE-Freshmen-2/" rel="next" title="113-2 台大資工大一下修課心得">
+      113-2 台大資工大一下修課心得 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%A3%E7%B7%9A%E5%88%B0%E5%B7%A5%E4%BD%9C%E7%AB%99"><span class="nav-number">1.</span> <span class="nav-text">連線到工作站</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E5%82%99%E7%9B%AE%E9%8C%84"><span class="nav-number">2.</span> <span class="nav-text">準備目錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">虛擬環境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E5%82%99%E5%A5%97%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">準備套件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E6%AC%A1%E6%9C%83%E7%94%A8%E5%88%B0%E7%9A%84"><span class="nav-number">4.1.</span> <span class="nav-text">每次會用到的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ML-HW6-%E6%9C%83%E7%94%A8%E5%88%B0%E7%9A%84"><span class="nav-number">4.2.</span> <span class="nav-text">ML HW6 會用到的</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF-notebook"><span class="nav-number">5.</span> <span class="nav-text">編輯 notebook</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">5.1.</span> <span class="nav-text">環境變數</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tmux"><span class="nav-number">6.</span> <span class="nav-text">tmux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%95%9F-tmux"><span class="nav-number">6.1.</span> <span class="nav-text">開啟 tmux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B0%E4%BD%A0%E6%83%B3%E8%A6%81%E5%8E%BB%E7%9A%84%E7%9B%AE%E9%8C%84"><span class="nav-number">6.2.</span> <span class="nav-text">到你想要去的目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%95%9F%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83"><span class="nav-number">6.3.</span> <span class="nav-text">開啟虛擬環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BA-tmux-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.4.</span> <span class="nav-text">退出 tmux 的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%A3%E5%9B%9E-tmux-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.5.</span> <span class="nav-text">連回 tmux 的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C-notebook"><span class="nav-number">7.</span> <span class="nav-text">執行 notebook</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%92%B0%E5%A2%83"><span class="nav-number">7.1.</span> <span class="nav-text">環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C"><span class="nav-number">7.2.</span> <span class="nav-text">執行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%A2%E9%96%8B"><span class="nav-number">7.3.</span> <span class="nav-text">離開</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="onion chen"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">onion chen</p>
+  <div class="site-description" itemprop="description">onion chen 的 Blog，紀錄有趣事物。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/onion0905" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;onion0905" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/onion2005" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;onion2005" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/onion0905" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;onion0905" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">onion chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
